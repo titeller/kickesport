@@ -1,0 +1,37 @@
+{
+  "name": "kickesport",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "esport",
+    "dota2",
+    "lol",
+    "csgo",
+    "rov"
+  ],
+  "author": "kickesport",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.3",
+    "jsonwebtoken": "^7.4.1",
+    "mysql": "^2.13.0",
+    "next": "^3.0.1-beta.8",
+    "react": "^15.6.1",
+    "react-dd-menu": "^2.0.1",
+    "react-dom": "^15.6.1",
+    "react-facebook-login": "^3.6.2",
+    "reactstrap": "^4.8.0",
+    "universal-cookie": "^2.0.8"
+  }
+}

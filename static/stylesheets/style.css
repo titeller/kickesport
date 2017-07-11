@@ -1,0 +1,162 @@
+@font-face {
+  font-family: Opensans;
+  src: url(/static/fonts/open-sans/OpenSans-Regular.ttf);
+}
+
+@font-face {
+  font-family: Opensans;
+  src: url(/static/fonts/open-sans/OpenSans-Light.ttf);
+  font-weight: lighter;
+}
+
+@font-face {
+  font-family: Opensans;
+  src: url(/static/fonts/open-sans/OpenSans-Bold.ttf);
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: Quark;
+  src: url(/static/fonts/quark/Quark-Light.otf);
+  unicode-range: U+0E00 -U+0 E7F;
+}
+
+@font-face {
+  font-family: Quark;
+  src: url(/static/fonts/quark/Quark-Bold.otf);
+  unicode-range: U+0E00 -U+0 E7F;
+  font-weight: bold;
+}
+
+body {
+  font-family: Opensans, Quark, Helvetica, Arial, sans-serif;
+  margin: 0;
+  background: #F5F5FF;
+  min-height: 80vh;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+.btn-transparent {
+  color: #ffffff;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background-color: rgba(255,255,255,0.2);
+  margin: 15px 0;
+  margin: 0.9375rem 0;
+  display: inline-block;
+  border-radius: 3px;
+  padding: 0.75rem 1.25rem 0.625rem;
+}
+.btn-transparent:hover {
+  border-color: #ffffff;
+}
+
+.loginBtn {
+  box-sizing: border-box;
+  position: relative;
+  margin: 0.2em;
+  padding: 0 15px 0 46px;
+  border: none;
+  text-align: left;
+  line-height: 34px;
+  white-space: nowrap;
+  border-radius: 0.2em;
+  font-size: 14px;
+  color: #FFF;
+  cursor: pointer;
+}
+.loginBtn:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 100%;
+}
+.loginBtn:focus {
+  outline: none;
+}
+.loginBtn:active {
+  box-shadow: inset 0 0 0 32px rgba(0,0,0,0.1);
+}
+.loginBtn--facebook {
+  background-color: #4C69BA;
+  background-image: linear-gradient(#4C69BA, #3B55A0);
+  text-shadow: 0 -1px 0 #354C8C;
+}
+.loginBtn--facebook:before {
+  border-right: #364e92 1px solid;
+  background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_facebook.png') 6px 6px no-repeat;
+}
+.loginBtn--facebook:hover,
+.loginBtn--facebook:focus {
+  background-color: #5B7BD5;
+  background-image: linear-gradient(#5B7BD5, #4864B1);
+}
+
+.hamberger-menu {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  margin-left: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+header.transparent .hamberger-menu {
+  color: #ffffff;
+}
+.dd-menu-items {
+  position: absolute;
+  right: -8px;
+  z-index: 7;
+}
+.dd-menu-items ul:before {
+  content: ' ';
+  position: absolute;
+  top: -5px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+
+  border-bottom: 5px solid #ffffff;
+}
+.dd-menu-items ul {
+  background-color: #ffffff;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: 0 0 4px rgba(0,0,0,.15), 0 2px 4px rgba(0,0,0,.29);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.dd-menu-items ul li {
+  text-align: right;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 44px;
+}
+.dd-menu-items ul li:hover {
+  background: #e0dbdb;
+}
+.dd-menu-items ul li a {
+  display: block;
+  color: #555;
+  min-width: 170px;
+  padding-right: 16px;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+a:visited {
+  background: none;
+}
