@@ -1,5 +1,5 @@
 import React from 'react'
-import StandardLayout from '../../components/layout/StandardLayout'
+import DashboardLayout from '../../components/dashboard/Layout'
 
 export default class extends React.Component {
   static async getInitialProps ({ req }) {
@@ -7,18 +7,11 @@ export default class extends React.Component {
     return { member }
   }
   render() {
+    const { member } = this.props
     return (
-      <StandardLayout displayFooter={false} member={this.props.member} >
-        <div className="content-container">
-          555
-        </div>
-        <style jsx>{`
-         .content-container {
-            position: relative;
-            width: 100%;
-            min-height: 100vh;
-        `}</style>
-      </StandardLayout>
+      <DashboardLayout member={member} >
+        GG wp
+      </DashboardLayout>
     )
   }
 }

@@ -52,7 +52,7 @@ class Header extends Component {
   }
 
   render() {
-    const { member = null, headerBackground } = this.props
+    const { member = null, headerBackground = true } = this.props
     let menuOptions = {
       isOpen: this.state.isMenuOpen,
       close: this.close.bind(this),
@@ -109,7 +109,7 @@ class Header extends Component {
           </div>
           <style jsx>{`
             header {
-              position: absolute;
+              position: fixed;
               transition: background 0.3s linear;
               transform: translateZ(0);
               height: 60px;
