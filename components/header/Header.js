@@ -39,7 +39,8 @@ class Header extends Component {
       const { axiosData } = member
       const { status } = axiosData
       if(status) {
-        location.reload()
+        // location.reload()
+        window.location = '/dashboard'
       } else {
         console.log(axiosData)
       }
@@ -83,7 +84,7 @@ class Header extends Component {
                 member !== null ? (
                   <div className="header-profile">
                     <div className="member-avatar-container">
-                      <img src={member.picture_profile} className="member-avatar" alt="member-avatar" />
+                      <img src={member.picture_profile || '/static/images/member/avatar.png'} className="member-avatar" alt="member-avatar" />
                     </div>
                     <div className="member-name">
                       <strong>{member.first_name} {member.last_name}</strong>

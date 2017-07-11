@@ -73,7 +73,7 @@ export default class Header extends Component {
               member !== null ? (
                 <div className="header-profile">
                   <div className="member-avatar-container">
-                    <img src={member.picture_profile} className="member-avatar" alt="member-avatar"/>
+                    <img src={member.picture_profile || '/static/images/member/avatar.png'} className="member-avatar" alt="member-avatar"/>
                   </div>
                   <div className="member-name">
                     <strong>{member.first_name} {member.last_name}</strong>
@@ -111,6 +111,7 @@ export default class Header extends Component {
         height: 60px;
         line-height: 60px;
         border-bottom: solid 1px rgba(255, 255, 255, 0.2);
+        padding: 0 12px;
       }
       .menu-right {
         float: right;
@@ -119,7 +120,6 @@ export default class Header extends Component {
         position: relative;
         padding: 0.75rem 1.25rem 0.725rem 3.25rem;
         font-size: 18px;
-        margin-left: 4px;
       }
       .game-current:before {
         content: "";
