@@ -4,12 +4,13 @@ import DashboardLayout from '../../components/dashboard/Layout'
 export default class extends React.Component {
   static async getInitialProps ({ req }) {
     const { member } = req
-    return { member }
+    const { currentGame } = req.cookies
+    return { member, currentGame }
   }
   render() {
-    const { member } = this.props
+    const { member, currentGame } = this.props
     return (
-      <DashboardLayout member={member} >
+      <DashboardLayout member={member} currentGame={currentGame} >
         GG wp
       </DashboardLayout>
     )

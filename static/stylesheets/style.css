@@ -29,8 +29,9 @@
 }
 
 body {
-  font-family: Opensans, Quark, Helvetica, Arial, sans-serif;
+  font-family: Opensans, Helvetica, Arial, sans-serif;
   margin: 0;
+  color: #555555;
   background: #F5F5FF;
   min-height: 80vh;
   font-size: 14px;

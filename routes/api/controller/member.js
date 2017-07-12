@@ -85,13 +85,15 @@ exports.check_member_byFacebookId = function (req, res, next) {
         }
       } else {
         res.send({
-          status: false
+          status: false,
+          error: err
         })
       }
     })
   } else {
     res.send({
-      status: false
+      status: false,
+      message: 'require params'
     })
   }
 }

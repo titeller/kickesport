@@ -6,10 +6,9 @@ export default ({ children }) => (
       </div>
     </a>
     <ul>
-      <li><a className="active" href="#home">Home</a></li>
-      <li><a href="#news">News</a></li>
-      <li><a href="#contact">Contact</a></li>
-      <li><a href="#about">About</a></li>
+      <li><a className="active" href="#home">หาผู้เล่น & หาทีม</a></li>
+      <li><a href="#news">หาทีมซ้อม</a></li>
+      <li><a href="#contact">Tournament</a></li>
     </ul>
     <style jsx>{`
        .dashboard-menu {
