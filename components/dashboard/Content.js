@@ -15,7 +15,7 @@ export default class Content extends Component {
         </div>
         <div className="dashboard-content">{children}</div>
         <style jsx>{`
-     .dashboard-constrain {
+      .dashboard-constrain {
         position: relative;
         float: right;
         width: calc(100% - 260px);
@@ -32,26 +32,18 @@ export default class Content extends Component {
       .menu-right {
         float: right;
       }
-      .game-current {
-        position: relative;
-        padding: 0.75rem 1.25rem 0.725rem 3.25rem;
-        font-size: 18px;
-      }
-      .game-current:before {
-        content: "";
-        box-sizing: border-box;
-        position: absolute;
-        top: 0;
-        left: 4px;
-        width: 2.5rem;
-        height: 100%;
-      }
-      .game-current:before {
-        background: url(/static/images/games/dota2-logo.png) no-repeat center/cover;
-        background-size: 100%;
-      }
       .dashboard-content {
         padding: 16px 12px;
+      }
+
+      @media only screen and (max-width: 768px) {
+        .dashboard-constrain {
+          float: inherit;
+          width: 100%;
+        }
+        .dashboard-content {
+          padding: 8px;
+        }
       }
     `}</style>
       </div>

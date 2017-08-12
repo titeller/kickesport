@@ -62,6 +62,13 @@ export default ({ children }) => (
         li a:hover:not(.active) {
             background-color: rgba(255,255,255,0.2);
         }
+
+        @media only screen and (max-width: 768px) {
+          .dashboard-menu {
+            display: none;
+          }
+        }
+      }
     `}</style>
   </div>
 )

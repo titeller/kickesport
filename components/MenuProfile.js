@@ -121,9 +121,10 @@ export default class MenuProfile extends Component {
               font-size: 14px;
               vertical-align: middle;
             }
-
-            .dashboard-content {
-              padding: 16px 12px;
+            @media only screen and (max-width: 768px) {
+              .member-name {
+                display: none;
+              }
             }
     `}</style>
       </div>

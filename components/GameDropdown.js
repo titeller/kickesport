@@ -43,9 +43,9 @@ export default class GameDropdown extends Component {
       <span>
         {
           current ? (
-            <span className={`game-current ${current}`}>{current}</span>
+            <span className={`cursor-pointer game-current ${current}`} onClick={this.toggle.bind(this)}>{current}</span>
           ) : (
-            <span>เลือก Game</span>
+            <span className="cursor-pointer" onClick={this.toggle.bind(this)}>เลือก Game</span>
           )
         }
         <DropdownMenu {...menuOptions}>
@@ -90,6 +90,9 @@ export default class GameDropdown extends Component {
       }
       .game-dropdown-row {
         padding-right: 12px;
+      }
+      .cursor-pointer {
+        cursor: pointer;
       }
     `}</style>
       </span>
