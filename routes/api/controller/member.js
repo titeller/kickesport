@@ -198,7 +198,7 @@ exports.member_looking_post = function (req, res) {
 }
 
 exports.member_looking_get = function (req, res) {
-  member_model.member_looking_get(req.query.game_id, req.query.role_id, req.query.offset, req.query.limit, req.query.order_by, req.query.sort_by, function(err, data) {
+  member_model.member_looking_get(req.query.game_id, req.query.role_id, req.query.offset, req.query.limit, req.query.order_by, req.query.sort_by, req.query.looking_status, function(err, data) {
     if (!err) {
       res.send({
         status: true,

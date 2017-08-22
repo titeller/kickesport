@@ -115,7 +115,7 @@ exports.member_looking_post = function (member_id, game_id, description, role_id
   });
 };
 
-exports.member_looking_get = function (game_id, role_id, offset, limit, order_by, sort_by, callback) {
+exports.member_looking_get = function (game_id, role_id, offset, limit, order_by, sort_by, looking_status, callback) {
   var sql = `SELECT member_looking.id, member_looking.game_id, member_looking.description, member_looking.create_date, member_looking.role_id, role.name AS role_name, member.first_name, member.last_name, member.picture_profile, member.steam_id, member.rov_name FROM member_looking LEFT JOIN member ON member_looking.member_id = member.id LEFT JOIN role ON member_looking.role_id = role.id`
 
   var sql_params = [];
@@ -125,6 +125,8 @@ exports.member_looking_get = function (game_id, role_id, offset, limit, order_by
   if(role_id) {
     sql_params.push(`member_looking.role_id=${connection.escape(role_id)}`);
   }
+  sql_params.push(`member_looking.looking_status=true`);
+
   if(sql_params.length > 0) {
     sql_params = sql_params.join(" AND ")
     sql += ` WHERE ${sql_params}`

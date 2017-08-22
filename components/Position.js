@@ -14,13 +14,13 @@ export default ({ name }) => (
       .support {
         background: #5AAC56;
       }
-      .carry {
+      .carry,.dps {
         background: #801815;
       }
-      .offlane {
+      .offlane,.tank {
         background: #152B55;
       }
-      .midlane {
+      .midlane,.mage {
         background: #806015;
       }
     `}</style>
