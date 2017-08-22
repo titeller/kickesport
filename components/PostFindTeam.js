@@ -1,29 +1,37 @@
+import { getDateFromNow } from '../helpers/dateTime'
 import Card from './Card'
 import Avatar from './Avatar'
 import Position from './Position'
 import Steam from './Steam'
+import Rov from './Rov'
 
-export default ({ n }) => (
+export default ({ game_id, first_name, last_name, picture_profile, role_name, description, steam_id, rov_name, create_date }) => (
   <Card>
     <div>
-      <a href="" target="_blank">
-        <Avatar src="https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/17795875_1248072241908039_7940853351446935125_n.jpg?oh=840d259c8d877bf14f19b0da5b7d5a2c&oe=59D2FBA5" />
-        <strong>Teller</strong>
-      </a>
-      <Position name={n} />
-      <Steam id={n} />
-      <span className="date"> 24 นาทีที่แล้ว</span>
+      <Avatar src={picture_profile} />
+      <strong className="username">{first_name} {last_name}</strong>
+      <Position name={role_name} />
+      {
+        game_id != 4 ? steam_id && <Steam id={steam_id} />
+          : rov_name && <Rov rov_name={rov_name} />
+      }
+      <span className="date"> {getDateFromNow(create_date)}</span>
     </div>
-    <div className="description">{n}</div>
+    <div className="description">{description}</div>
     <style jsx>{`
+      .username {
+        font-size: 14px;
+      }
       .description {
         font-size: 12px;
         margin-top: 8px;
+        word-break: break-word;
+        white-space: pre-line;
       }
       .date {
         text-align: right;
         margin-top: 4px;
-        font-size: 10px;
+        font-size: 12px;
         color: #888888;
       }
     `}</style>

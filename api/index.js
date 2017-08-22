@@ -52,3 +52,8 @@ async function axiosRequest({ baseURL, url, method, params, data, version = '1',
 function getUrlRandomString({ url }) {
   return `${url}?cache=${new Date().getTime()}`
 }
+
+export function getFullBaseUrl(req) {
+  const url = req.protocol + '://' + req.get('host')
+  return url
+}

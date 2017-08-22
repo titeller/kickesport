@@ -4,7 +4,7 @@ export default ({ name }) => (
     <style jsx>{`
       .position {
         background: #999999;
-        font-size: 10px;
+        font-size: 14px;
         display: inline-block;
         padding: 2px 4px;
         border-radius: 2px;

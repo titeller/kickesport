@@ -1,8 +1,11 @@
-export default ({ id }) => (
-  <a href={id} target="_blank" className="steam">
-    <span><i className="fa fa-steam-square" aria-hidden="true" /> Steam</span>
+export default ({ rov_name }) => (
+  <div>
+    <span>{rov_name}</span>
     <style jsx>{`
-      .steam {
+      div {
+        display: inline-block;
+      }
+      span {
         background: #3e4148;
         font-size: 14px;
         display: inline-block;
@@ -12,5 +15,5 @@ export default ({ id }) => (
         color: #fff;
       }
     `}</style>
-  </a>
+  </div>
 )

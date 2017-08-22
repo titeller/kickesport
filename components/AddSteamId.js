@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import * as Api from '../api'
 import { isSteamId, isSteamCustomId } from '../helpers/validation'
-import PostFindTeamInput from './PostFindTeamInput'
 
-export default class AddGameId extends Component {
+export default class AddSteamId extends Component {
   state = {
     steam_display: !this.props.steam_id,
     steam_id: this.props.steam_id,
@@ -25,6 +24,7 @@ export default class AddGameId extends Component {
         this.setState({
           steam_display: false
         })
+        location.reload()
       }
     } else {
       this.setState({
@@ -41,7 +41,7 @@ export default class AddGameId extends Component {
   render() {
     const { steam_display, message_error } = this.state
     return (
-      <div>
+      <div className="steam-input-containers">
         {
           steam_display && (
             <div className="input-information input-steam">
@@ -66,10 +66,10 @@ export default class AddGameId extends Component {
             </div>
           )
         }
-
-        <PostFindTeamInput />
-
         <style jsx>{`
+          .steam-input-containers {
+            display: inline-block;
+          }
           .input-information {
             background: #444546;
             display: inline-block;
@@ -103,7 +103,10 @@ export default class AddGameId extends Component {
             font-size: 11px;
           }
 
-          @media only screen and (max-width: 480px) {
+          @media only screen and (max-width: 768px) {
+            .steam-input-containers {
+              display: block;
+            }
             .input-steam {
               width: 100%;
             }
