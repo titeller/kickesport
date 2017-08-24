@@ -8,9 +8,11 @@ exports.handleRef = function (req, res, next) {
 }
 
 exports.forceSSL = function (req, res, next) {
+  var host = req.headers.host
+  if (host.match(/^www/) !== null ) {
+    host = host.replace(/^www\./, '')
+  }
   if (!req.secure) {
-    var temphost = req.headers.host
-    var host = temphost.replace(/www\./g,"")
     return res.redirect('https://' + host + req.url)
   }
   next()

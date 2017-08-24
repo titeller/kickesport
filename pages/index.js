@@ -5,6 +5,7 @@ import * as Cookie from '../helpers/cookies'
 export default class extends React.Component {
   static async getInitialProps ({ req }) {
     const { member } = req
+
     return { member }
   }
 
