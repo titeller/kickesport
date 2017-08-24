@@ -4,15 +4,14 @@ import DashboardLayout from '../../components/dashboard/Layout'
 import PostFindTeam from '../../components/PostFindTeam'
 import PostFindTeamInput from '../../components/PostFindTeamInput'
 import Loader from '../../components/Loader'
-
 import { getIdByGameName } from '../../helpers/game'
 
 export default class Dashboard extends Component {
   static async getInitialProps ({ req }) {
     const { member, cookies } = req
     const { currentGame } = cookies
-    const game_id = getIdByGameName(currentGame)
-    const member_looking_limit = 20
+    const game_id = currentGame ? getIdByGameName(currentGame) : null
+    const member_looking_limit = 10
 
     const roleMaster = await Api.get({
       url: '/api/role',
@@ -89,10 +88,10 @@ export default class Dashboard extends Component {
     return (
       <DashboardLayout member={member} currentGame={currentGame}>
         <div className="dashboard-content-containers">
-          <PostFindTeamInput steam_id={member.steam_id} rov_name={member.rov_name} currentGame={currentGame} roleMaster={roleMaster} />
+          <PostFindTeamInput member={member} steam_id={member ? member.steam_id : ''} rov_name={member ? member.rov_name : ''} game_id={game_id} currentGame={currentGame} roleMaster={roleMaster} />
           {
             member_looking.map(looking => (
-              <PostFindTeam key={looking.id} {...looking} game_id={game_id} />
+              <PostFindTeam key={looking.id} {...looking} currentGameId={game_id} />
             ))
           }
           {

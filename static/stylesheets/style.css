@@ -120,6 +120,18 @@ header.transparent .hamberger-menu {
 .dd-menu-items ul:before {
   content: ' ';
   position: absolute;
+  top: -6px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+
+  border-bottom: 5px solid rgba(0,0,0,.15);
+}
+.dd-menu-items ul:after {
+  content: ' ';
+  position: absolute;
   top: -5px;
   right: 10px;
   width: 0;

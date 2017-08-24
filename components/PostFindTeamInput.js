@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
+import FacebookLogin from 'react-facebook-login'
 import * as Api from '../api'
 import Loader from './Loader'
+import GameDropdown from './GameDropdown'
 import { isSteamId, isSteamCustomId } from '../helpers/validation'
 import { getIdByGameName } from '../helpers/game'
+import facebookAppId from '../config/facebook-endpoint'
 
 export default class PostFindTeamInput extends Component {
   state = {
@@ -171,8 +174,33 @@ export default class PostFindTeamInput extends Component {
     }
   }
 
+  async responseFacebook(response) {
+    const { id, email, picture, first_name, last_name } = response
+
+    if(email) {
+      const { data } = picture
+      const { url } = data
+      const member = await Api.post({
+        url: '/api/member',
+        data: {
+          username: email,
+          email: email,
+          facebook_id: id,
+          first_name: first_name,
+          last_name: last_name,
+          picture_profile: url || ''
+        }
+      })
+      const { axiosData } = member
+      const { status } = axiosData
+      if(status) {
+        window.location = '/dashboard'
+      }
+    }
+  }
+
   render() {
-    const { roleMaster, currentGame } = this.props
+    const { member, game_id, roleMaster, currentGame } = this.props
     const { popupFindTeam, steam_id, steam_id_display, steam_id_message_error, rov_name, rov_name_display, rov_name_message_error, role_id, role_id_message_error, description, description_message_error, loading } = this.state
     return (
       <div className="post-containers">
@@ -191,115 +219,147 @@ export default class PostFindTeamInput extends Component {
                     <i className="fa fa-times" aria-hidden="true" />
                   </div>
                 </div>
-                <div className="popup-content">
-                  {
-                    currentGame !== 'rov' ? (
-                      <div className="popup-content-row">
-                        <div className="row-title">
-                          <strong>
-                            <span><i className="fa fa-steam-square" aria-hidden="true" /> Steam id ของคุณ </span>
-                            <small className="text-gray" style={{ display: 'inline-block' }}>(เพื่อให้ผู้เล่นอื่นที่สนใจสามารถติดต่อคุณได้ผ่าน Steam id นี้)</small>
-                          </strong>
-                        </div>
-                        {
-                          steam_id_display ? (
-                            <div>
-                              <div className="input-with-btn">
-                                <input placeholder="Steam id ของคุณ" onChange={this.handleInputSteamId.bind(this)} value={steam_id || ''} />
-                                <button className="primary" onClick={this.saveSteamId.bind(this)}>บันทึก</button>
-                              </div>
-                              {
-                                steam_id_message_error && (
-                                  <div className="text-error message-error">
-                                    <div>{steam_id_message_error} ตัวอย่างเช่น</div>
-                                    <div>https://steamcommunity.com/profiles/76561198057258855</div>
-                                    <div>https://steamcommunity.com/id/kickesport</div>
+                {
+                  member ? game_id ? (
+                    <div className="popup-content">
+                      {
+                        currentGame !== 'rov' ? (
+                          <div className="popup-content-row">
+                            <div className="row-title">
+                              <strong>
+                                <span><i className="fa fa-steam-square" aria-hidden="true" /> Steam id ของคุณ </span>
+                                <small className="text-gray" style={{ display: 'inline-block' }}>(เพื่อให้ผู้เล่นอื่นที่สนใจสามารถติดต่อคุณได้ผ่าน Steam id นี้)</small>
+                              </strong>
+                            </div>
+                            {
+                              steam_id_display ? (
+                                <div>
+                                  <div className="input-with-btn">
+                                    <input placeholder="Steam id ของคุณ" onChange={this.handleInputSteamId.bind(this)} value={steam_id || ''} />
+                                    <button className="primary" onClick={this.saveSteamId.bind(this)}>บันทึก</button>
                                   </div>
-                                )
-                              }
+                                  {
+                                    steam_id_message_error && (
+                                      <div className="text-error message-error">
+                                        <div>{steam_id_message_error} ตัวอย่างเช่น</div>
+                                        <div>https://steamcommunity.com/profiles/76561198057258855</div>
+                                        <div>https://steamcommunity.com/id/kickesport</div>
+                                      </div>
+                                    )
+                                  }
+                                </div>
+                              ) : (
+                                <div>
+                                  <span>{steam_id}</span>
+                                  <span className="text-primary cursor-pointer" style={{ marginLeft: '8px' }} onClick={this.toggleDisplaySteamId.bind(this)}>แก้ไข</span>
+                                </div>
+                              )
+                            }
+                          </div>
+                        ) : (
+                          <div className="popup-content-row">
+                            <div className="row-title">
+                              <strong>
+                                <span>ชื่อ Rov ของคุณ </span>
+                                <small className="text-gray" style={{ display: 'inline-block' }}>(เพื่อให้ผู้เล่นอื่นที่สนใจสามารถติดต่อคุณได้ผ่านชื่อ Rov นี้)</small>
+                              </strong>
                             </div>
-                          ) : (
-                            <div>
-                              <span>{steam_id}</span>
-                              <span className="text-primary cursor-pointer" style={{ marginLeft: '8px' }} onClick={this.toggleDisplaySteamId.bind(this)}>แก้ไข</span>
-                            </div>
-                          )
-                        }
-                      </div>
-                    ) : (
-                      <div className="popup-content-row">
+                            {
+                              rov_name_display ? (
+                                <div>
+                                  <div className="input-with-btn">
+                                    <input placeholder="ชื่อ Rov ของคุณ" onChange={this.handleRovName.bind(this)} value={rov_name || ''} />
+                                    <button className="primary" onClick={this.saveRovName.bind(this)}>บันทึก</button>
+                                  </div>
+                                  {
+                                    rov_name_message_error && (
+                                      <div className="text-error message-error">{rov_name_message_error}</div>
+                                    )
+                                  }
+                                </div>
+                              ) : (
+                                <div>
+                                  <span style={{ fontSize: '16px' }}>{rov_name}</span>
+                                  <span className="text-primary cursor-pointer" style={{ marginLeft: '8px' }} onClick={this.toggleDisplayRovName.bind(this)}>แก้ไข</span>
+                                </div>
+                              )
+                            }
+                          </div>
+                        ) // rov name
+                      }
+                      <div className="popup-content-row" style={{ marginTop: '24px' }}>
                         <div className="row-title">
-                          <strong>
-                            <span>ชื่อ Rov ของคุณ </span>
-                            <small className="text-gray" style={{ display: 'inline-block' }}>(เพื่อให้ผู้เล่นอื่นที่สนใจสามารถติดต่อคุณได้ผ่านชื่อ Rov นี้)</small>
-                          </strong>
+                          <strong>เลือกตำแหน่งที่คุณต้องการ</strong>
                         </div>
                         {
-                          rov_name_display ? (
-                            <div>
-                              <div className="input-with-btn">
-                                <input placeholder="ชื่อ Rov ของคุณ" onChange={this.handleRovName.bind(this)} value={rov_name || ''} />
-                                <button className="primary" onClick={this.saveRovName.bind(this)}>บันทึก</button>
-                              </div>
-                              {
-                                rov_name_message_error && (
-                                  <div className="text-error message-error">{rov_name_message_error}</div>
-                                )
-                              }
+                          roleMaster.map(role => (
+                            <div className="radio-container" key={role.id}>
+                              <input type="radio" id={`role-${role.id}`} name="role" value={role.id} onChange={this.handleRoleId.bind(this)} checked={role_id == role.id}  />
+                              <label htmlFor={`role-${role.id}`}>
+                                <strong>{role.name}</strong>
+                              </label>
+                              <div className="check"></div>
                             </div>
-                          ) : (
-                            <div>
-                              <span style={{ fontSize: '16px' }}>{rov_name}</span>
-                              <span className="text-primary cursor-pointer" style={{ marginLeft: '8px' }} onClick={this.toggleDisplayRovName.bind(this)}>แก้ไข</span>
-                            </div>
+                          ))
+                        }
+                        {
+                          role_id_message_error && (
+                            <div className="text-error message-error">{role_id_message_error}</div>
                           )
                         }
                       </div>
-                    ) // rov name
-                  }
-                  <div className="popup-content-row" style={{ marginTop: '24px' }}>
-                    <div className="row-title">
-                      <strong>เลือกตำแหน่งที่คุณต้องการ</strong>
-                    </div>
-                    {
-                      roleMaster.map(role => (
-                        <div className="radio-container" key={role.id}>
-                          <input type="radio" id={`role-${role.id}`} name="role" value={role.id} onChange={this.handleRoleId.bind(this)} checked={role_id == role.id}  />
-                          <label htmlFor={`role-${role.id}`}>
-                            <strong>{role.name}</strong>
-                          </label>
-                          <div className="check"></div>
+                      <div className="popup-content-row">
+                        <div className="row-title">
+                          <strong>อธิบายการเล่นหรือสิ่งที่เกี่ยวกับคุณ</strong>
                         </div>
-                      ))
-                    }
-                    {
-                      role_id_message_error && (
-                        <div className="text-error message-error">{role_id_message_error}</div>
-                      )
-                    }
-                  </div>
-                  <div className="popup-content-row">
-                    <div className="row-title">
-                      <strong>อธิบายการเล่นหรือสิ่งที่เกี่ยวกับคุณ</strong>
+                        <textarea className="description" placeholder="อธิบายการเล่นหรือสิ่งที่เกี่ยวกับคุณ" onChange={this.handleDescription.bind(this)} value={description} />
+                        {
+                          description_message_error && (
+                            <div className="text-error message-error">{description_message_error}</div>
+                          )
+                        }
+                      </div>
+                      <div className="popup-bottom">
+                        {
+                          !loading ? (
+                            <button className="primary" onClick={this.submitFindTeam.bind(this)}>ประกาศ</button>
+                          ) : (
+                            <Loader size="24px" />
+                          )
+                        }
+                      </div>
                     </div>
-                    <textarea className="description" placeholder="อธิบายการเล่นหรือสิ่งที่เกี่ยวกับคุณ" onChange={this.handleDescription.bind(this)} value={description} />
-                    {
-                      description_message_error && (
-                        <div className="text-error message-error">{description_message_error}</div>
-                      )
-                    }
-                  </div>
-                  <div className="popup-bottom">
-                    {
-                      !loading ? (
-                        <button className="primary" onClick={this.submitFindTeam.bind(this)}>ประกาศ</button>
-                      ) : (
-                        <Loader size="24px" />
-                      )
-                    }
-                  </div>
+                  ) : (
+                    <div className="popup-content">
+                      <div style={{ textAlign: 'center', padding: '12px 0' }}>
+                        <i className="fa fa-info-circle" aria-hidden="true" style={{ fontSize: '48px' }} />
+                        <h2>กรุณาเลือกเกมเพื่อประกาศหาทีม</h2>
+                        <div style={{ padding: '12px 0 40px' }}>
+                          <GameDropdown currentGame={currentGame} />
+                        </div>
+                        <button className="primary" onClick={this.togglePopupFindTeam.bind(this)}>ปิด</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="popup-content">
+                      <div style={{ textAlign: 'center', padding: '12px 0' }}>
+                        <i className="fa fa-info-circle" aria-hidden="true" style={{ fontSize: '48px' }} />
+                        <h2>กรุณาเข้าสู่ระบบเพื่อประกาศหาทีม</h2>
+                        <FacebookLogin
+                          appId={facebookAppId}
+                          autoLoad={false}
+                          fields="name,email,picture,first_name,last_name"
+                          scope="public_profile"
+                          callback={this.responseFacebook}
+                          textButton="Login"
+                          cssClass="loginBtn loginBtn--facebook"
+                        />
+                        <button className="default" onClick={this.togglePopupFindTeam.bind(this)}>ปิด</button>
+                      </div>
+                    </div>
+                  )
+                }
                 </div>
-              </div>
             </div>
           )
         }
@@ -326,7 +386,6 @@ export default class PostFindTeamInput extends Component {
             outline: 0;
             background: #fff;
             box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);
-            overflow: hidden;
           }
           .popup-header {
             padding: 8px;

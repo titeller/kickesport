@@ -39,7 +39,7 @@ export default class MenuProfile extends Component {
       const { axiosData } = member
       const { status } = axiosData
       if(status) {
-        window.location = '/'
+        window.location = '/dashboard'
       }
     }
   }
@@ -74,7 +74,7 @@ export default class MenuProfile extends Component {
                 <strong>{member.first_name} {member.last_name}</strong>
               </div>
               <DropdownMenu {...menuOptions}>
-                {/*<li><a href="">Profile</a></li>*/}
+                <li><a href="/profile">Profile</a></li>
                 <li><a onClick={this.logout.bind(this)}>Logout</a></li>
               </DropdownMenu>
             </div>
@@ -91,41 +91,41 @@ export default class MenuProfile extends Component {
           )
         }
         <style jsx>{`
-      .header-profile {
-              display: inline-block;
-              padding: 0 8px;
-            }
-            .member-avatar-container {
-              display: inline-block;
-              width: 40px;
-              height: 40px;
-              border-radius: 100%;
-              border: solid 2px #d80157;
-              margin: 0 8px 0 0;
-              overflow: hidden;
-              text-align: center;
-              position: relative;
-              vertical-align: middle;
-            }
-            .member-avatar {
-              display: inline-block;
-              max-width: 100%;
-              max-height: 100%;
-              position: absolute;
-              left: 50%;
-              top: 50%;
-              transform: translate(-50%, -50%);
-            }
+          .header-profile {
+            display: inline-block;
+            padding: 0 8px;
+          }
+          .member-avatar-container {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border-radius: 100%;
+            border: solid 1px #888;
+            margin: 0 8px 0 0;
+            overflow: hidden;
+            text-align: center;
+            position: relative;
+            vertical-align: middle;
+          }
+          .member-avatar {
+            display: inline-block;
+            max-width: 100%;
+            max-height: 100%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+          }
+          .member-name {
+            display: inline-block;
+            font-size: 14px;
+            vertical-align: middle;
+          }
+          @media only screen and (max-width: 768px) {
             .member-name {
-              display: inline-block;
-              font-size: 14px;
-              vertical-align: middle;
+              display: none;
             }
-            @media only screen and (max-width: 768px) {
-              .member-name {
-                display: none;
-              }
-            }
+          }
     `}</style>
       </div>
     )
