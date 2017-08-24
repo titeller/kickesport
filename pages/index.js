@@ -18,7 +18,8 @@ export default class extends React.Component {
       <StandardLayout displayFooter={false} member={this.props.member} headerBackground={false} >
         <div className="content-container">
           <div className="content-constrain">
-            <h1>หาเพื่อนเล่น Game ตอนนี้?</h1>
+            <h1>คุณต้องการหาทีม หาผู้เล่น ?</h1>
+            <span className="sub-title">เลือกเกมส์ที่คุณต้องการ</span>
             <div className="activity-constrain">
               <div className="activity-row">
                 <a className="dota2 btn-transparent" onClick={this.selectGame.bind(this, 'dota2')}>Dota 2</a>
@@ -32,6 +33,15 @@ export default class extends React.Component {
               <div className="activity-row">
                 <a className="rov btn-transparent" onClick={this.selectGame.bind(this, 'rov')}>Rov</a>
               </div>
+            </div>
+          </div>
+          <div className="footer">
+            <div className="footer-left">
+              <a href="/terms" className="text-footer">Terms of Service</a>
+              <a href="/privacy" className="text-footer">Privacy & Policy</a>
+            </div>
+            <div className="footer-right">
+              <span className="text-footer">© 2017 Kickesport. All Rights Reserved.</span>
             </div>
           </div>
         </div>
@@ -97,9 +107,35 @@ export default class extends React.Component {
         background: url(/static/images/games/rov-logo.png) no-repeat center/cover;
         background-size: 100%;
       }
+      .sub-title {
+        font-size: 16px;
+      }
+      .footer {
+        position: absolute;
+        bottom: 0;
+        padding: 8px 0;
+        width: 100%;
+        text-align: center;
+      }
+      .footer-left {
+        float: left;
+      }
+      .footer-right {
+        float: right;
+      }
+      .text-footer {
+        margin: 8px;
+        font-size: 12px;
+        color: #ffffff;
+      }
       @media only screen and (max-width: 480px) {
         .activity-row, .btn-transparent {
           display: block;
+        }
+
+        .footer-left,.footer-right {
+          float: initial;
+          margin: 8px 0;
         }
       }
     `}</style>

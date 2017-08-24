@@ -33,11 +33,13 @@ class Header extends Component {
               z-index: 5000;
               padding: 0 8px;
               background-color: #ffffff;
+              border-bottom: solid 1px #e9e9e9;
               color: #555555;
             }
             .transparent {
               color: #ffffff;
               background-color: transparent;
+              border-bottom: solid 1px transparent;
             }
             .header-container {
               max-width: 1300px;
