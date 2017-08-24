@@ -1,11 +1,18 @@
 import React from 'react'
 import StandardLayout from '../components/layout/StandardLayout'
+import * as Cookie from '../helpers/cookies'
 
 export default class extends React.Component {
   static async getInitialProps ({ req }) {
     const { member } = req
     return { member }
   }
+
+  selectGame = (game) => {
+    Cookie.savingCookies({ cookieName: 'currentGame', data: game })
+    window.location = '/dashboard'
+  }
+
   render() {
     return (
       <StandardLayout displayFooter={false} member={this.props.member} headerBackground={false} >
@@ -14,16 +21,16 @@ export default class extends React.Component {
             <h1>หาเพื่อนเล่น Game ตอนนี้?</h1>
             <div className="activity-constrain">
               <div className="activity-row">
-                <a className="dota2 btn-transparent" href="/dashboard?game=dota2">Dota 2</a>
+                <a className="dota2 btn-transparent" onClick={this.selectGame.bind(this, 'dota2')}>Dota 2</a>
               </div>
               <div className="activity-row">
-                <a className="csgo btn-transparent" href="/dashboard?game=csgo">CsGO</a>
+                <a className="csgo btn-transparent" onClick={this.selectGame.bind(this, 'csgo')}>CS:GO</a>
               </div>
               <div className="activity-row">
-                <a className="ow btn-transparent" href="/dashboard?game=overwatch">Overwatch</a>
+                <a className="overwatch btn-transparent" onClick={this.selectGame.bind(this, 'overwatch')}>Overwatch</a>
               </div>
               <div className="activity-row">
-                <a className="rov btn-transparent" href="/dashboard?game=rov">Rov</a>
+                <a className="rov btn-transparent" onClick={this.selectGame.bind(this, 'rov')}>Rov</a>
               </div>
             </div>
           </div>
@@ -82,7 +89,7 @@ export default class extends React.Component {
         background: url(/static/images/games/csgo-logo.png) no-repeat center/cover;
         background-size: 100%;
       }
-      .ow.btn-transparent:before {
+      .overwatch.btn-transparent:before {
         background: url(/static/images/games/ow-logo.png) no-repeat center/cover;
         background-size: 100%;
       }

@@ -63,6 +63,58 @@ exports.member_post = function (req, res) {
   });
 }
 
+exports.member_steam_auth = function (member_id, steam_profile, callback) {
+  var steam_id = steam_profile._json.steamid;
+  console.log(member_id, steam_id)
+  member_model.member_put(member_id, null, null, null, null, steam_id, null, callback);
+};
+
+exports.member_put = function (req, res) {
+  var username;
+  var email;
+  var first_name;
+  var last_name;
+  var picture_profile;
+  var steam_id;
+  var rov_name;
+
+  if(req.body.username) {
+    username = req.body.username
+  }
+  if(req.body.email) {
+    email = req.body.email
+  }
+  if(req.body.first_name) {
+    first_name = req.body.first_name
+  }
+  if(req.body.last_name) {
+    last_name = req.body.last_name
+  }
+  if(req.body.picture_profile) {
+    picture_profile = req.body.picture_profile
+  }
+  if(req.body.steam_id) {
+    steam_id = req.body.steam_id
+  }
+  if(req.body.rov_name) {
+    rov_name = req.body.rov_name
+  }
+
+  member_model.member_put(req.member.id, username, first_name, last_name, picture_profile, steam_id, rov_name, function (err, data) {
+    if (!err) {
+      res.send({
+        status: true,
+        message: 'Update success'
+      })
+    } else {
+      res.send({
+        status: false,
+        message: err.message
+      });
+    }
+  })
+}
+
 exports.check_member_byFacebookId = function (req, res, next) {
   if(req.body.facebook_id) {
     member_model.member_get_byFacebookId(req.body.facebook_id, function (err, data) {
@@ -85,20 +137,21 @@ exports.check_member_byFacebookId = function (req, res, next) {
         }
       } else {
         res.send({
-          status: false
+          status: false,
+          error: err
         })
       }
     })
   } else {
     res.send({
-      status: false
+      status: false,
+      message: 'require params'
     })
   }
 }
 
 exports.verify_member_token = function (req, res, next) {
   jwt.verify(req.cookies.kickesportToken || '', appSecret, function (err, decoded) {
-
     if(!err) {
       res.cookie(cookieName.getMemberToken, req.cookies.kickesportToken, {
         maxAge: 3600 * 1000 * 24 * 365 // 1 year
@@ -125,6 +178,42 @@ exports.verify_member_token = function (req, res, next) {
       } else {
         next();
       }
+    }
+  })
+}
+
+exports.member_looking_post = function (req, res) {
+  var game_id = req.body.game_id;
+  var description = req.body.description;
+  var role_id = req.body.role_id;
+
+  member_model.member_looking_post(req.member.id, game_id, description, role_id, function (err, data) {
+    if (!err) {
+      res.send({
+        status: true,
+        message: 'Post member looking team success.'
+      })
+    } else {
+      res.send({
+        status: false,
+        message: err.message
+      });
+    }
+  })
+}
+
+exports.member_looking_get = function (req, res) {
+  member_model.member_looking_get(req.query.game_id, req.query.role_id, req.query.offset, req.query.limit, req.query.order_by, req.query.sort_by, req.query.looking_status, function(err, data) {
+    if (!err) {
+      res.send({
+        status: true,
+        data: data
+      })
+    } else {
+      res.send({
+        status: false,
+        message: err.message
+      });
     }
   })
 }
