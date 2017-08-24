@@ -11,6 +11,7 @@ exports.forceSSL = function (req, res, next) {
   var host = req.headers.host
   if (host.match(/^www/) !== null ) {
     host = host.replace(/^www\./, '')
+    return res.redirect('https://' + host + req.url)
   }
   if (!req.secure) {
     return res.redirect('https://' + host + req.url)
