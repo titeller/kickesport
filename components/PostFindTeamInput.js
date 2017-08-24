@@ -3,8 +3,10 @@ import FacebookLogin from 'react-facebook-login'
 import * as Api from '../api'
 import Loader from './Loader'
 import GameDropdown from './GameDropdown'
+import Popup from './Popup'
 import { isSteamId, isSteamCustomId } from '../helpers/validation'
 import { getIdByGameName } from '../helpers/game'
+import { getSteamProfileById } from '../helpers/steam'
 import facebookAppId from '../config/facebook-endpoint'
 
 export default class PostFindTeamInput extends Component {
@@ -204,24 +206,16 @@ export default class PostFindTeamInput extends Component {
     const { popupFindTeam, steam_id, steam_id_display, steam_id_message_error, rov_name, rov_name_display, rov_name_message_error, role_id, role_id_message_error, description, description_message_error, loading } = this.state
     return (
       <div className="post-containers">
-        <button className="default" onClick={this.togglePopupFindTeam.bind(this)}>
+        <button className="primary" onClick={this.togglePopupFindTeam.bind(this)}>
           <i className="fa fa-bullhorn" aria-hidden="true" />
           <strong> ประกาศหาทีม</strong>
         </button>
         {
           popupFindTeam && (
-            <div className="overlay">
-              <div className="popup-containers">
-                <div className="popup-header">
-                  <i className="fa fa-bullhorn" aria-hidden="true" />
-                  <strong> ประกาศหาทีม</strong>
-                  <div className="popup-close" onClick={this.togglePopupFindTeam.bind(this)}>
-                    <i className="fa fa-times" aria-hidden="true" />
-                  </div>
-                </div>
+            <Popup title="ประกาศหาทีม" titleIcon="fa-bullhorn" closePopup={this.togglePopupFindTeam.bind(this)}>
                 {
                   member ? game_id ? (
-                    <div className="popup-content">
+                    <div>
                       {
                         currentGame !== 'rov' ? (
                           <div className="popup-content-row">
@@ -250,8 +244,11 @@ export default class PostFindTeamInput extends Component {
                                 </div>
                               ) : (
                                 <div>
-                                  <span>{steam_id}</span>
-                                  <span className="text-primary cursor-pointer" style={{ marginLeft: '8px' }} onClick={this.toggleDisplaySteamId.bind(this)}>แก้ไข</span>
+                                  <a href={getSteamProfileById(steam_id)} className="btn-steam" target="_blank">
+                                    <i className="fa fa-steam-square" aria-hidden="true" />
+                                    <span> Steam โปรไฟล์ของคุณ</span>
+                                  </a>
+                                  {/*<span className="text-primary cursor-pointer" style={{ marginLeft: '8px' }} onClick={this.toggleDisplaySteamId.bind(this)}>แก้ไข</span>*/}
                                 </div>
                               )
                             }
@@ -359,43 +356,13 @@ export default class PostFindTeamInput extends Component {
                     </div>
                   )
                 }
-                </div>
-            </div>
+            </Popup>
           )
         }
         <style jsx>{`
           .post-containers {
             margin: 8px;
             display: inline-block;
-          }
-          .overlay {
-            z-index: 2;
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,.4);
-            padding-top: 80px;
-          }
-          .popup-containers {
-            position: relative;
-            margin: auto;
-            width: 700px;
-            padding: 0;
-            outline: 0;
-            background: #fff;
-            box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);
-          }
-          .popup-header {
-            padding: 8px;
-            color: #fff;
-            font-size: 18px;
-            background: #d80157;
-          }
-          .popup-content {
-            padding: 12px 24px;
-            font-size: 12px;
           }
           .row-title {
             font-size: 14px;
@@ -435,11 +402,6 @@ export default class PostFindTeamInput extends Component {
             }
           }
           @media only screen and (max-width: 480px) {
-            .popup-containers {
-              margin: 0 10px;
-              width: auto!important;
-            }
-
             .input-with-btn > input {
               width: calc(100% - 70px);
             }

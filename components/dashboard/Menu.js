@@ -1,12 +1,12 @@
 export default ({ children }) => (
   <div className="dashboard-menu">
-    <a href="/dashboard">
+    <a href="/">
       <div className="dashboard-logo">
         <img src="/static/images/kickesport-tranparent.png" className="header-logo" />
       </div>
     </a>
     <ul>
-      <li><a className="active" href="/dashboard">หาผู้เล่น & หาทีม</a></li>
+      <li><a className="active" href="/dashboard">ประกาศหาทีม</a></li>
       {/*<li><a href="#news">หาทีมซ้อม</a></li>*/}
       {/*<li><a href="#contact">Tournament</a></li>*/}
     </ul>

@@ -88,7 +88,19 @@ export default class Dashboard extends Component {
     return (
       <DashboardLayout member={member} currentGame={currentGame}>
         <div className="dashboard-content-containers">
-          <PostFindTeamInput member={member} steam_id={member ? member.steam_id : ''} rov_name={member ? member.rov_name : ''} game_id={game_id} currentGame={currentGame} roleMaster={roleMaster} />
+          {
+            game_id && game_id != 4 && member && !member.steam_id ? (
+              <span>
+                <a href="/api/steam" className="btn-steam">
+                  <i className="fa fa-steam-square" aria-hidden="true" />
+                  <span>เชื่อมต่อกับ Steam</span>
+                </a>
+                <small className="text-gray"> เพื่อประกาศหาทีม</small>
+              </span>
+            ) : (
+              <PostFindTeamInput member={member} steam_id={member ? member.steam_id : ''} rov_name={member ? member.rov_name : ''} game_id={game_id} currentGame={currentGame} roleMaster={roleMaster} />
+            )
+          }
           {
             member_looking.map(looking => (
               <PostFindTeam key={looking.id} {...looking} currentGameId={game_id} />

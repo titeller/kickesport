@@ -226,6 +226,7 @@ button {
   transition-property: color,background-color,border-color;
   cursor: pointer;
   letter-spacing: 1px;
+  border-radius: 2px;
 }
 button:focus {
   outline: none;
@@ -254,6 +255,23 @@ button.secondary {
 }
 button.secondary:hover {
   background-color: #151515;
+}
+
+.btn-steam {
+  display: inline-block;
+  color: #ffffff;
+  background: #1B2838;
+  padding: 8px 12px;
+  font-size: 12px;
+  border-radius: 2px;
+}
+.btn-steam:hover {
+  background: #2e425a;
+}
+.btn-steam > .fa-steam-square {
+  font-size: 20px;
+  vertical-align: sub;
+  margin-right: 8px;
 }
 
 .text-error {

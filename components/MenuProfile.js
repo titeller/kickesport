@@ -74,7 +74,7 @@ export default class MenuProfile extends Component {
                 <strong>{member.first_name} {member.last_name}</strong>
               </div>
               <DropdownMenu {...menuOptions}>
-                <li><a href="/profile">Profile</a></li>
+                {/*<li><a href="/profile">Profile</a></li>*/}
                 <li><a onClick={this.logout.bind(this)}>Logout</a></li>
               </DropdownMenu>
             </div>

@@ -1,5 +1,7 @@
+import { getSteamProfileById } from '../helpers/steam'
+
 export default ({ id }) => (
-  <a href={id} target="_blank" className="steam">
+  <a href={getSteamProfileById(id)} target="_blank" className="steam">
     <span><i className="fa fa-steam-square" aria-hidden="true" /> Steam</span>
     <style jsx>{`
       .steam {

@@ -63,6 +63,12 @@ exports.member_post = function (req, res) {
   });
 }
 
+exports.member_steam_auth = function (member_id, steam_profile, callback) {
+  var steam_id = steam_profile._json.steamid;
+  console.log(member_id, steam_id)
+  member_model.member_put(member_id, null, null, null, null, steam_id, null, callback);
+};
+
 exports.member_put = function (req, res) {
   var username;
   var email;
@@ -146,7 +152,6 @@ exports.check_member_byFacebookId = function (req, res, next) {
 
 exports.verify_member_token = function (req, res, next) {
   jwt.verify(req.cookies.kickesportToken || '', appSecret, function (err, decoded) {
-
     if(!err) {
       res.cookie(cookieName.getMemberToken, req.cookies.kickesportToken, {
         maxAge: 3600 * 1000 * 24 * 365 // 1 year
