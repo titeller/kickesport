@@ -6,6 +6,7 @@ const appSecret = require('../../../config/secret-key')
 const cookieName = require('../../../config/cookie-name')
 
 exports.member_post = function (req, res) {
+  console.log('member_post', req.body)
   var username;
   var password;
   var email;
@@ -37,9 +38,12 @@ exports.member_post = function (req, res) {
   }
 
   bcrypt.hash(new Date().getTime().toString(), 10, function(err, hash) {
+    console.log('bcrypt.hash', err, hash)
     member_model.member_post(username, hash, email, facebook_id, first_name, last_name, picture_profile, function (err, data) {
+      console.log('member_post', err, data)
       if (!err) {
         member_model.member_get_byId(data.insertId, function(err, data) {
+          console.log('member_get_byId', err, data)
           var token = jwt.sign(data[0], appSecret, { expiresIn: 3600 * 1000 * 24 });
 
           res.cookie(cookieName.getMemberToken, token, {
@@ -54,8 +58,6 @@ exports.member_post = function (req, res) {
           });
         });
       } else {
-        console.log('member post error')
-        console.log(err);
         res.send({
           status: false,
           message: err.message
@@ -118,8 +120,10 @@ exports.member_put = function (req, res) {
 }
 
 exports.check_member_byFacebookId = function (req, res, next) {
+  console.log('check_member_byFacebookId', req.body.facebook_id)
   if(req.body.facebook_id) {
     member_model.member_get_byFacebookId(req.body.facebook_id, function (err, data) {
+      console.log('check_member_byFacebookId', err , data)
       if(!err) {
         if(data && data[0]) {
           var token = jwt.sign(data[0], appSecret, { expiresIn: 3600 * 1000 * 24 });
@@ -138,7 +142,6 @@ exports.check_member_byFacebookId = function (req, res, next) {
           next()
         }
       } else {
-        console.log(err)
         res.send({
           status: false,
           error: err
@@ -146,6 +149,7 @@ exports.check_member_byFacebookId = function (req, res, next) {
       }
     })
   } else {
+    console.log('check_member_byFacebookId', 'require params')
     res.send({
       status: false,
       message: 'require params'
