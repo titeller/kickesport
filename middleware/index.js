@@ -8,14 +8,14 @@ exports.handleRef = function (req, res, next) {
 }
 
 exports.forceSSL = function (req, res, next) {
-  var host = req.headers.host
-  console.log('req.headers.host', req.headers.host)
-  if (host && (host.match(/^www/) !== null)) {
-    console.log('host', host)
-    host = host.replace(/^www\./, '')
-    return res.redirect('https://' + host + req.url)
-  }
-  if (!req.secure) {
+  var host = req.headers.host || ''
+  // console.log('req.headers.host', req.headers.host)
+  // if (host && host.match(/^www/) !== null) {
+  //   console.log('host', host)
+  //   host = host.replace(/^www\./, '')
+  //   return res.redirect('https://' + host + req.url)
+  // }
+  if (!req.secure && host) {
     return res.redirect('https://' + host + req.url)
   }
   next()
