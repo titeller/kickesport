@@ -20,6 +20,7 @@ export default class MenuProfile extends Component {
   }
 
   async responseFacebook(response) {
+    console.log(response)
     const { id, email, picture, first_name, last_name } = response
 
     if(email) {
