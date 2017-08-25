@@ -8,7 +8,7 @@ export default class Content extends Component {
     return (
       <div className="dashboard-constrain">
         <div className="dashboard-menu">
-          <a href="/dashboard" className="logo-responsive">
+          <a href="/" className="logo-responsive">
             <img src="/static/favicon.ico" />
           </a>
           <GameDropdown currentGame={currentGame} />
