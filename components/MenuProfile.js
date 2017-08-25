@@ -42,6 +42,8 @@ export default class MenuProfile extends Component {
       if(status) {
         // window.location = '/dashboard'
       }
+    } else {
+      console.log('need email')
     }
   }
 
