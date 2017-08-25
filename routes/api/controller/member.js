@@ -54,6 +54,8 @@ exports.member_post = function (req, res) {
           });
         });
       } else {
+        console.log('member post error')
+        console.log(err);
         res.send({
           status: false,
           message: err.message
