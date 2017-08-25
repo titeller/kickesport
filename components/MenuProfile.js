@@ -20,6 +20,7 @@ export default class MenuProfile extends Component {
   }
 
   async responseFacebook(response) {
+    console.log(response)
     const { id, email, picture, first_name, last_name } = response
 
     if(email) {
@@ -37,6 +38,7 @@ export default class MenuProfile extends Component {
         }
       })
       const { axiosData } = member
+      console.log(axiosData)
       const { status } = axiosData
       if(status) {
         window.location = '/dashboard'
