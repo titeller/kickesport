@@ -20,31 +20,25 @@ export default class MenuProfile extends Component {
   }
 
   async responseFacebook(response) {
-    console.log(response)
     const { id, email, picture, first_name, last_name } = response
 
-    if(email) {
-      const { data } = picture
-      const { url } = data
-      const member = await Api.post({
-        url: '/api/member',
-        data: {
-          username: email,
-          email: email,
-          facebook_id: id,
-          first_name: first_name,
-          last_name: last_name,
-          picture_profile: url || ''
-        }
-      })
-      const { axiosData } = member
-      console.log(axiosData)
-      const { status } = axiosData
-      if(status) {
-        // window.location = '/dashboard'
+    const { data } = picture
+    const { url } = data
+    const member = await Api.post({
+      url: '/api/member',
+      data: {
+        username: email,
+        email: email,
+        facebook_id: id,
+        first_name: first_name,
+        last_name: last_name,
+        picture_profile: url || ''
       }
-    } else {
-      console.log('need email')
+    })
+    const { axiosData } = member
+    const { status } = axiosData
+    if(status) {
+      window.location = '/dashboard'
     }
   }
 
