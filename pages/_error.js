@@ -37,7 +37,14 @@ export default class Error extends React.Component {
             position: absolute;
             height: 100%;
             width: 100%;
-            background: #555;
+            background: linear-gradient(
+              rgba(0, 0, 0, 0.6),
+              rgba(0, 0, 0, 0.6)
+            ),url(static/images/landing-cover.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
             color: #fff;
             margin: 0;
             text-align: center;
@@ -52,10 +59,20 @@ export default class Error extends React.Component {
           }
           .error-title {
             font-size: 160px;
+            color: #d80157;
           }
           .error-description {
             font-size: 20px;
             margin-bottom: 24px;
+          }
+
+          @media only screen and (max-width: 480px) {
+            .error-title {
+              font-size: 100px;
+            }
+            .error-description {
+              font-size: 14px;
+            }
           }
         `}</style>
       </StandardLayout>

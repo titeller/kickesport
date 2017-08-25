@@ -346,7 +346,7 @@ export default class PostFindTeamInput extends Component {
                           appId={facebookAppId}
                           autoLoad={false}
                           fields="name,email,picture,first_name,last_name"
-                          scope="public_profile"
+                          scope="public_profile,email"
                           callback={this.responseFacebook}
                           textButton="Login"
                           cssClass="loginBtn loginBtn--facebook"
