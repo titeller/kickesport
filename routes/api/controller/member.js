@@ -138,6 +138,7 @@ exports.check_member_byFacebookId = function (req, res, next) {
           next()
         }
       } else {
+        console.log(err)
         res.send({
           status: false,
           error: err

@@ -37,6 +37,7 @@ export default class MenuProfile extends Component {
         }
       })
       const { axiosData } = member
+      console.log(axiosData)
       const { status } = axiosData
       if(status) {
         window.location = '/dashboard'
