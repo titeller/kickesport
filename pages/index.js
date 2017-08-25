@@ -21,18 +21,18 @@ export default class extends React.Component {
           <div className="content-constrain">
             <h1>คุณต้องการหาทีม หาผู้เล่น ?</h1>
             <span className="sub-title">เลือกเกมส์ที่คุณต้องการ</span>
-            <div className="activity-constrain">
-              <div className="activity-row">
-                <a className="dota2 btn-transparent" onClick={this.selectGame.bind(this, 'dota2')}>Dota 2</a>
+            <div className="game-list">
+              <div className="game">
+                <img src="static/images/games/card/cover-dota.png" onClick={this.selectGame.bind(this, 'dota2')} />
               </div>
-              <div className="activity-row">
-                <a className="csgo btn-transparent" onClick={this.selectGame.bind(this, 'csgo')}>CS:GO</a>
+              <div className="game">
+                <img src="static/images/games/card/cover-csgo.png" onClick={this.selectGame.bind(this, 'csgo')} />
               </div>
-              <div className="activity-row">
-                <a className="overwatch btn-transparent" onClick={this.selectGame.bind(this, 'overwatch')}>Overwatch</a>
+              <div className="game">
+                <img src="static/images/games/card/cover-overwatch.png" onClick={this.selectGame.bind(this, 'overwatch')} />
               </div>
-              <div className="activity-row">
-                <a className="rov btn-transparent" onClick={this.selectGame.bind(this, 'rov')}>Rov</a>
+              <div className="game">
+                <img src="static/images/games/card/cover-rov.png" onClick={this.selectGame.bind(this, 'rov')} />
               </div>
             </div>
           </div>
@@ -47,36 +47,51 @@ export default class extends React.Component {
           </div>
         </div>
         <style jsx>{`
-      .content-container {
-        position: relative;
-        width: 100%;
-        min-height: 100vh;
+          .game-list {
+            margin: 12px 0;
+          }
+          .game {
+            display: inline-block;
+            width: 100%;
+            max-width: 200px;
+          }
+          .game > img {
+            width: 100%;
+            cursor: pointer;
+            transition: .2s ease-in-out;
+          }
+          .game > img:hover {
+            transform: scale(1.1, 1.1);
+            filter: drop-shadow(0px 4px 8px #d80157);
+          }
 
-        background: linear-gradient(
-          rgba(0, 0, 0, 0.6),
-          rgba(0, 0, 0, 0.6)
-        ),url(static/images/landing-cover.jpg) no-repeat center center fixed;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-      }
-      .content-constrain {
-        display: flex;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -ms-flex-flow: column nowrap;
-        flex-flow: column nowrap;
-        padding-top: 25vh;
-        text-align: center;
-        position: relative;
-        width: 100%;
-        color: #ffffff;
-      }
-      .activity-row {
-        margin: 8px;
-        display: inline-block;
-      }
+        .content-container {
+          position: relative;
+          width: 100%;
+          min-height: 100vh;
+
+          background: linear-gradient(
+            rgba(0, 0, 0, 0.6),
+            rgba(0, 0, 0, 0.6)
+          ),url(static/images/landing-cover.jpg) no-repeat center center fixed;
+          -webkit-background-size: cover;
+          -moz-background-size: cover;
+          -o-background-size: cover;
+          background-size: cover;
+        }
+        .content-constrain {
+          display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+          padding-top: 20vh;
+          text-align: center;
+          position: relative;
+          width: 100%;
+          color: #ffffff;
+        }
+
       .btn-transparent {
         position: relative;
         padding-left: 50px;
@@ -137,6 +152,13 @@ export default class extends React.Component {
         .footer-left,.footer-right {
           float: initial;
           margin: 8px 0;
+        }
+
+        .content-constrain {
+          padding-top: 8vh;
+        }
+        .game {
+          max-width: 150px;
         }
       }
     `}</style>
