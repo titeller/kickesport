@@ -48,13 +48,13 @@ export default class extends React.Component {
         </div>
         <style jsx>{`
           .game-list {
-            margin: 12px 0;
+            margin-top: 50px;
           }
           .game {
             display: inline-block;
             width: 100%;
-            max-width: 200px;
-            margin: 8px;
+            max-width: 250px;
+            margin: -28px;
           }
           .game > img {
             width: 100%;
@@ -160,6 +160,7 @@ export default class extends React.Component {
         }
         .game {
           max-width: 150px;
+          margin: -8px;
         }
       }
     `}</style>
