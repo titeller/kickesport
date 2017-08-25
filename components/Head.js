@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-export default ({ title = 'Kickesport', ogType = 'website', ogTitle = 'หาเพื่อน หาทีม เล่นเกมส์ Dota2 CS:GO Overwatch Rov', ogDesc = 'Kickesport สังคมของคนเล่นเกมส์', ogImage = 'https://res.cloudinary.com/kickesport/image/upload/v1499875403/Screen_Shot_2560-07-12_at_10.58.21_PM_n8tz6z.png' }) => (
+export default ({ title = 'Kickesport', ogType = 'website', ogTitle = 'หาเพื่อน หาทีม เล่นเกมส์ Dota2 CS:GO Overwatch Rov', ogDesc = 'Kickesport สังคมของคนเล่นเกมส์', ogImage = 'https://res.cloudinary.com/kickesport/image/upload/v1503678929/cover-og_ez43pg.png' }) => (
   <Head>
     <title>{ title }</title>
     <link rel="shortcut icon" type="image/png" href="/static/favicon.ico"/>
