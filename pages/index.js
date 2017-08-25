@@ -54,6 +54,7 @@ export default class extends React.Component {
             display: inline-block;
             width: 100%;
             max-width: 200px;
+            margin: 8px;
           }
           .game > img {
             width: 100%;
