@@ -34,6 +34,7 @@
     "react-dd-menu": "^2.0.1",
     "react-dom": "^15.6.1",
     "react-facebook-login": "^3.6.2",
+    "react-textarea-autosize": "^5.1.0",
     "reactstrap": "^4.8.0",
     "universal-cookie": "^2.0.8"
   }

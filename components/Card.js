@@ -1,5 +1,5 @@
-export default ({ children, noPadding = false }) => (
-  <div className={`card ${noPadding ? 'no-padding' : ''}`}>
+export default ({ children, noPadding = false, noMargin = false }) => (
+  <div className={`card ${noPadding ? 'no-padding' : ''} ${noMargin ? 'no-margin' : ''}`}>
     {children}
     <style jsx>{`
       .card {
@@ -10,6 +10,9 @@ export default ({ children, noPadding = false }) => (
       }
       .no-padding {
         padding: 0;
+      }
+      .no-margin {
+        margin: 0;
       }
     `}</style>
   </div>

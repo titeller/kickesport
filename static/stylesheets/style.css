@@ -283,16 +283,22 @@ button.secondary:hover {
 .text-gray {
   color: #AAAAAA;
 }
+.text-default {
+  color: #555555;
+}
 
 .cursor-pointer {
   cursor: pointer;
 }
 
 
-.radio-container{
+.radio-container {
   color: #AAAAAA;
   display: inline-block;
   position: relative;
+}
+.radio-container.radio-container {
+  font-size: 12px;
 }
 
 .radio-container input[type=radio]{
@@ -310,6 +316,9 @@ button.secondary:hover {
   z-index: 9;
   cursor: pointer;
   -webkit-transition: all 0.25s linear;
+}
+.radio-container.radio-container-sm label {
+  padding: 5px 5px 5px 60px;
 }
 
 .radio-container:hover label{
