@@ -33,7 +33,7 @@ export default class Dashboard extends Component {
       }
     })
 
-    return { game_id, member, currentGame, roleMaster: roleMaster.data, member_looking: member_looking.data, member_looking_limit }
+    return { game_id, member, currentGame, roleMaster: roleMaster.data, member_looking: member_looking.data || [], member_looking_limit }
   }
 
   state = {
