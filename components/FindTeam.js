@@ -1,35 +1,38 @@
 import React, { Component } from 'react'
 import Card from './Card'
+import { getSteamProfileById } from '../helpers/steam'
+import { getDateFromNow } from '../helpers/dateTime'
 
 export default class FindTeam extends Component {
   render() {
+    const { avatar, first_name, last_name, position, steam_id, create_date, description } = this.props
     return (
       <Card>
         <div className="poster-header">
           <a href="" className="poster-avatar">
-            <img className="avatar" src="https://thedotascene.files.wordpress.com/2015/08/rtz.jpg?w=240" />
+            <img className="avatar" src={avatar} />
           </a>
           <div className="poster-contact">
             <div>
-              <a href="" className="poster-name">Artour Babaev</a>
+              <a href="" className="poster-name">{first_name} {last_name}</a>
             </div>
             <div>
               <div className="poster-label">
                 <span className="text-gray">ตำแหน่ง </span>
-                <strong>Support</strong>
+                <strong>{position}</strong>
               </div>
               <div className="poster-label">
-                <i className="fa fa-steam-square" aria-hidden="true" style={{ fontSize: '14px' }} />
-                <span> Steam</span>
+                <a href={getSteamProfileById(steam_id)} target="_blank" style={{ color: '#555' }}>
+                  <i className="fa fa-steam-square" aria-hidden="true" style={{ fontSize: '14px' }} />
+                  <span> Steam</span>
+                </a>
               </div>
               <div className="poster-label">
-                <small className="text-gray">14 Minutes Ago</small>
+                <small className="text-gray">{getDateFromNow(create_date)}</small>
               </div>
             </div>
           </div>
-          <div className="poster-description">
-            Artour was born in Tashkent, Uzbekistan on July 1st, 1996.[1] Before playing Dota 2 professionally he played the original DotA as well as Starcraft II. Arteezy played Protoss, and reached Masters before he started playing Dota 2.[2]
-          </div>
+          <div className="poster-description">{description}</div>
         </div>
         <style jsx>{`
           .poster-avatar {

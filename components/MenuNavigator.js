@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
+import GameDropdown from './GameDropdown'
 
 export default class MenuNavigator extends Component {
   render() {
+    const { currentGame } = this.props
     return (
       <div className="menu-container">
         <div className="navigator">
+          <div className="select-game">
+            <GameDropdown currentGame={currentGame} />
+          </div>
           <a href="/dashboard" className="navigator-row active">
             <i className="fa fa-bullhorn navigator-icon" aria-hidden="true" />
             <span>ประกาศหาทีม</span>
@@ -43,6 +48,11 @@ export default class MenuNavigator extends Component {
           }
           .navigator-icon {
             margin-right: 6px;
+          }
+          .select-game {
+            margin-bottom: 6px;
+            padding-right: 6px;
+            border-bottom: solid 1px #e5e5e5;
           }
           @media only screen and (max-width: 768px) {
             .menu-container {
