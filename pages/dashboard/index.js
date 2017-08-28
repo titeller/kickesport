@@ -4,6 +4,7 @@ import StandardLayout from '../../components/layout/StandardLayout'
 import MenuNavigator from '../../components/MenuNavigator'
 import PostFindTeam from '../../components/PostFindTeam'
 import FindTeam from '../../components/FindTeam'
+import SteamLink from '../../components/SteamLink'
 import { getIdByGameName } from '../../helpers/game'
 
 export default class Dashboard extends Component {
@@ -35,24 +36,10 @@ export default class Dashboard extends Component {
           <div className="container">
             <MenuNavigator />
             <div className="feed-container">
+
+              <SteamLink />
               <PostFindTeam game_id={game_id} roleMaster={roleMaster} />
 
-              <FindTeam />
-              <FindTeam />
-              <FindTeam />
-              <FindTeam />
-              <FindTeam />
-              <FindTeam />
-              <FindTeam />
-              <FindTeam />
-              <FindTeam />
-              <FindTeam />
-              <FindTeam />
-              <FindTeam />
-              <FindTeam />
-              <FindTeam />
-              <FindTeam />
-              <FindTeam />
               <FindTeam />
               <FindTeam />
               <FindTeam />
@@ -72,6 +59,13 @@ export default class Dashboard extends Component {
             float: left;
             margin-left: 12px;
             width: 500px;
+          }
+          @media only screen and (max-width: 768px) {
+            .feed-container {
+              float: inherit;
+              margin: 0 4px;
+              width: calc(100% - 8px);
+            }
           }
         `}</style>
       </StandardLayout>

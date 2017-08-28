@@ -27,6 +27,7 @@ export default class MenuNavigator extends Component {
           .navigator-row {
             display: block;
             color: #555;
+            box-sizing: border-box;
             padding: 4px 6px;
             font-size: 14px;
             border-radius: 2px;
@@ -42,6 +43,17 @@ export default class MenuNavigator extends Component {
           }
           .navigator-icon {
             margin-right: 6px;
+          }
+          @media only screen and (max-width: 768px) {
+            .menu-container {
+              float: inherit;
+              max-width: inherit;
+              margin: 0 4px;
+              width: calc(100% - 8px);
+            }
+            .navigator-row {
+              display: inline-block;
+            }
           }
         `}</style>
       </div>
