@@ -4,6 +4,7 @@ import Card from './Card'
 import { getSteamProfileById } from '../helpers/steam'
 import { getFacebookProfileById } from '../helpers/facebook'
 import { getDateFromNow } from '../helpers/dateTime'
+import { getAvatarByGameId } from '../helpers/game'
 
 export default class FindTeam extends Component {
   state = {
@@ -16,7 +17,7 @@ export default class FindTeam extends Component {
     })
   }
   render() {
-    const { avatar, first_name, last_name, position, steam_id, create_date, description, game_id, facebook_id, rov_name } = this.props
+    const { avatar, first_name, last_name, position, steam_id, create_date, description, game_id, facebook_id, rov_name, current_game_id } = this.props
     const { description_seemore, description_short } = this.state
     return (
       <Card padding="4px 4px 4px 4px">
@@ -27,6 +28,14 @@ export default class FindTeam extends Component {
           <div className="poster-contact">
             <div>
               <a href={getFacebookProfileById(facebook_id)} className="poster-name" target="_blank">{first_name} {last_name}</a>
+              {
+                !current_game_id && (
+                  <span>
+                <small className="text-gray find-team-game-label">ประกาศหาทีม</small>
+                <img src={getAvatarByGameId(game_id)} className="find-team-game" />
+              </span>
+                )
+              }
             </div>
             <div>
               <div className="poster-label">
@@ -165,6 +174,15 @@ export default class FindTeam extends Component {
             font-size: 16px;
             vertical-align: middle;
             margin-top: -3px;
+          }
+          .find-team-game-label {
+            margin-left: 8px;
+          }
+          .find-team-game {
+            width: 30px;
+            vertical-align: middle;
+            margin-left: 4px;
+            opacity: .6;
           }
           @media only screen and (max-width: 768px) {
             .steam, .facebook {

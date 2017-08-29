@@ -14,14 +14,14 @@ export default class MenuNavigator extends Component {
             <i className="fa fa-bullhorn navigator-icon" aria-hidden="true" />
             <span>ประกาศหาทีม</span>
           </a>
-          <a href="/dashboard" className="navigator-row">
-            <i className="fa fa-paper-plane-o navigator-icon" aria-hidden="true" />
-            <span>หาทีมซ้อม</span>
-          </a>
-          <a href="/dashboard" className="navigator-row">
-            <i className="fa fa-trophy navigator-icon" aria-hidden="true" />
-            <span>ทัวร์นาเม้น</span>
-          </a>
+          {/*<a href="/dashboard" className="navigator-row">*/}
+            {/*<i className="fa fa-paper-plane-o navigator-icon" aria-hidden="true" />*/}
+            {/*<span>หาทีมซ้อม</span>*/}
+          {/*</a>*/}
+          {/*<a href="/dashboard" className="navigator-row">*/}
+            {/*<i className="fa fa-trophy navigator-icon" aria-hidden="true" />*/}
+            {/*<span>ทัวร์นาเม้น</span>*/}
+          {/*</a>*/}
         </div>
         <style jsx>{`
           .menu-container {

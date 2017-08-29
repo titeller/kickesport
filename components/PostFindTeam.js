@@ -95,7 +95,10 @@ export default class PostFindTeam extends Component {
     const { minRow, description, role_id, roleMaster, description_message_error, role_id_message_error, loading } = this.state
     return (
       <Card noMargin={true} noPadding={true}>
-        <div className="post-header">อธิบายการเล่นหรือสิ่งที่เกี่ยวกับตัวคุณ</div>
+        <div className="post-header">
+          <i className="fa fa-bullhorn navigator-icon" aria-hidden="true" />
+          <span style={{ marginLeft: '8px' }}>อธิบายการเล่นหรือสิ่งที่เกี่ยวกับตัวคุณ</span>
+        </div>
         <div className="post-row" style={{ padding: '0 4px' }}>
           <Textarea
             placeholder="อธิบายการเล่นหรือสิ่งที่เกี่ยวกับตัวคุณ"

@@ -7,6 +7,8 @@ import FindTeam from '../../components/FindTeam'
 import AddRovName from '../../components/AddRovName'
 import SteamLink from '../../components/SteamLink'
 import Loader from '../../components/Loader'
+import Card from '../../components/Card'
+import GameDropdown from '../../components/GameDropdown'
 import { getIdByGameName } from '../../helpers/game'
 
 
@@ -87,7 +89,6 @@ export default class Dashboard extends Component {
   render() {
     const { member, current_game_id, currentGame, roleMaster } = this.props
     const { display_loading, member_looking } = this.state
-    console.log(member_looking)
     return (
       <StandardLayout member={member} displayFooter={false}>
         <div className="global-container">
@@ -104,8 +105,18 @@ export default class Dashboard extends Component {
                   <AddRovName />
                 )
               }
-
-              <PostFindTeam game_id={current_game_id} roleMaster={roleMaster} />
+              {
+                current_game_id ? (
+                  <PostFindTeam game_id={current_game_id} roleMaster={roleMaster} />
+                ) : (
+                  <Card>
+                    <strong>กรุณาเลือกเกมส์เพื่อประกาศหาทีม</strong>
+                    <div className="game-empty-right">
+                      <GameDropdown />
+                    </div>
+                  </Card>
+                )
+              }
               {
                 member_looking.map(({ id, picture_profile, facebook_id, first_name, last_name, steam_id, rov_name, create_date, description, role_name, game_id }) =>
                   <FindTeam
@@ -120,6 +131,7 @@ export default class Dashboard extends Component {
                     description={description}
                     game_id={game_id}
                     rov_name={rov_name}
+                    current_game_id={current_game_id}
                   />
                 )
               }
@@ -149,6 +161,10 @@ export default class Dashboard extends Component {
           .loadmore {
             padding: 20px 0 30px;
             text-align: center;
+          }
+          .game-empty-right {
+            float: right;
+            width: 150px;
           }
           @media only screen and (max-width: 768px) {
             .feed-container {
