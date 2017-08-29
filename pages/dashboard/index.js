@@ -57,22 +57,37 @@ export default class Dashboard extends Component {
       }
     })
 
-    console.log(member)
+    const member_looking_limit = 20
+    const member_looking = await Api.get({
+      url: '/api/member_looking',
+      baseURL: Api.getFullBaseUrl(req),
+      params: {
+        game_id,
+        limit: member_looking_limit,
+        offset: 0,
+        order_by: 'create_date',
+        sort_by: 'DESC',
+      }
+    })
+
     return {
       member,
-      game_id,
+      current_game_id: game_id,
       currentGame,
-      roleMaster: roleMaster.data
+      roleMaster: roleMaster.data,
+      member_looking: member_looking.data,
     }
   }
 
   state = {
+    member_looking: this.props.member_looking || [],
     display_loading: false,
   }
 
   render() {
-    const { member, game_id, currentGame, roleMaster } = this.props
-    const { display_loading } = this.state
+    const { member, current_game_id, currentGame, roleMaster } = this.props
+    const { display_loading, member_looking } = this.state
+    console.log(member_looking)
     return (
       <StandardLayout member={member} displayFooter={false}>
         <div className="global-container">
@@ -80,28 +95,31 @@ export default class Dashboard extends Component {
             <MenuNavigator currentGame={currentGame} />
             <div className="feed-container">
               {
-                game_id != 4 && member && !member.steam_id && (
+                current_game_id != 4 && member && !member.steam_id && (
                   <SteamLink />
                 )
               }
               {
-                game_id == 4 && member && !member.rov_name && (
+                current_game_id == 4 && member && !member.rov_name && (
                   <AddRovName />
                 )
               }
 
-              <PostFindTeam game_id={game_id} roleMaster={roleMaster} />
+              <PostFindTeam game_id={current_game_id} roleMaster={roleMaster} />
               {
-                findTeamList.map(({ id, avatar, first_name, last_name, position, steam_id, rov_name, create_date, description }) =>
+                member_looking.map(({ id, picture_profile, facebook_id, first_name, last_name, steam_id, rov_name, create_date, description, role_name, game_id }) =>
                   <FindTeam
                     key={id}
-                    avatar={avatar}
+                    avatar={picture_profile}
                     first_name={first_name}
                     last_name={last_name}
-                    position={position}
+                    position={role_name}
+                    facebook_id={facebook_id}
                     steam_id={steam_id}
                     create_date={create_date}
                     description={description}
+                    game_id={game_id}
+                    rov_name={rov_name}
                   />
                 )
               }

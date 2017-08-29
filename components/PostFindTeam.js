@@ -3,6 +3,7 @@ import Card from './Card'
 import Loader from './Loader'
 import Textarea from 'react-textarea-autosize'
 import * as Api from '../api'
+import { getNameByGameId } from '../helpers/game'
 
 export default class PostFindTeam extends Component {
   state = {
@@ -90,6 +91,7 @@ export default class PostFindTeam extends Component {
   }
 
   render() {
+    const { game_id } = this.props
     const { minRow, description, role_id, roleMaster, description_message_error, role_id_message_error, loading } = this.state
     return (
       <Card noMargin={true} noPadding={true}>
@@ -147,11 +149,13 @@ export default class PostFindTeam extends Component {
             <div className="post-left">
               <a href="/api/steam">
                 <small className="text-default">
-                  <strong>
-                    <span>เชื่อมต่อกับ </span>
-                    <i className="fa fa-steam-square" aria-hidden="true" />
-                    <span> Steam เพื่อประกาศหาทีม</span>
-                  </strong>
+                  <span>คุณกำลังประกาศหาทีมเกมส์โดย </span>
+                  <strong>{getNameByGameId(game_id)}</strong>
+                  {/*<strong>*/}
+                    {/*<span>เชื่อมต่อกับ </span>*/}
+                    {/*<i className="fa fa-steam-square" aria-hidden="true" />*/}
+                    {/*<span> Steam เพื่อประกาศหาทีม</span>*/}
+                  {/*</strong>*/}
                 </small>
               </a>
             </div>

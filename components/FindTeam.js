@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+// import { Card } from './uikit/Theme'
 import Card from './Card'
 import { getSteamProfileById } from '../helpers/steam'
+import { getFacebookProfileById } from '../helpers/facebook'
 import { getDateFromNow } from '../helpers/dateTime'
 
 export default class FindTeam extends Component {
@@ -14,35 +16,43 @@ export default class FindTeam extends Component {
     })
   }
   render() {
-    const { avatar, first_name, last_name, position, steam_id, create_date, description } = this.props
+    const { avatar, first_name, last_name, position, steam_id, create_date, description, game_id, facebook_id, rov_name } = this.props
     const { description_seemore, description_short } = this.state
     return (
-      <Card>
+      <Card padding="4px 4px 4px 4px">
         <div className="poster-header">
-          <a href="" className="poster-avatar">
+          <a href={getFacebookProfileById(facebook_id)} className="poster-avatar" target="_blank">
             <img className="avatar" src={avatar} />
           </a>
           <div className="poster-contact">
             <div>
-              <a href="" className="poster-name">{first_name} {last_name}</a>
+              <a href={getFacebookProfileById(facebook_id)} className="poster-name" target="_blank">{first_name} {last_name}</a>
             </div>
             <div>
               <div className="poster-label">
                 <span className="text-gray">ตำแหน่ง </span>
                 <strong>{position}</strong>
               </div>
-              <div className="poster-label">
-                <a href={getSteamProfileById(steam_id)} target="_blank" style={{ color: '#555' }}>
-                  <i className="fa fa-steam-square" aria-hidden="true" style={{ fontSize: '14px' }} />
-                  <span> Steam</span>
-                </a>
-              </div>
+              {/*<div className="poster-label">*/}
+                {/*<a href={getSteamProfileById(steam_id)} target="_blank" style={{ color: '#555' }}>*/}
+                  {/*<i className="fa fa-steam-square" aria-hidden="true" style={{ fontSize: '14px' }} />*/}
+                  {/*<span> Steam</span>*/}
+                {/*</a>*/}
+              {/*</div>*/}
               <div className="poster-label">
                 <small className="text-gray">{getDateFromNow(create_date)}</small>
               </div>
             </div>
           </div>
           <div className="poster-description">
+            {
+              game_id == 4 && rov_name && (
+                <div style={{ marginBottom: '4px' }}>
+                  <span>ชื่อในเกมส์ </span>
+                  <strong style={{ fontSize: '16px' }}>{rov_name}</strong>
+                </div>
+              )
+            }
             {
               description_seemore ? `${description_short}...` : description
             }
@@ -51,6 +61,28 @@ export default class FindTeam extends Component {
                 <div className="seemore">
                   <span className="text-primary" onClick={this.toggleSeeMoreDescription.bind(this)}>ดูเพิ่มเติม</span>
                 </div>
+              )
+            }
+          </div>
+          <div className="poster-action">
+            {
+              facebook_id && (
+                <a href={getFacebookProfileById(facebook_id)} target="_blank" className="poster-action-row" alt="ดู Facebook โปรไฟล์">
+                  <button className="facebook loginBtn--facebook">
+                    <i className="fa fa-facebook" aria-hidden="true" />
+                    <span>Facebook โปรไฟล์</span>
+                  </button>
+                </a>
+              )
+            }
+            {
+              game_id != 4 && steam_id && (
+                <a href={getSteamProfileById(steam_id)} target="_blank" className="poster-action-row" alt="ดู Steam โปรไฟล์">
+                  <button className="steam">
+                    <i className="fa fa-steam-square" aria-hidden="true" />
+                    <span>Steam โปรไฟล์</span>
+                  </button>
+                </a>
               )
             }
           </div>
@@ -90,9 +122,15 @@ export default class FindTeam extends Component {
           }
           .poster-description {
             font-size: 13px;
-            margin: 4px 0;
+            margin: 4px;
             word-break: break-word;
             white-space: pre-line;
+          }
+          .poster-action {
+            margin-top: 8px;
+            padding-top: 12px;
+            border-top: solid 1px #e9e9e9;
+            text-align: right;
           }
           .seemore {
             margin-left: 4px;
@@ -104,6 +142,38 @@ export default class FindTeam extends Component {
           }
           .seemore > span:hover {
             text-decoration: underline;
+          }
+          .poster-action-row {
+            margin: 2px;
+          }
+          .steam, .facebook {
+            color: #fff;
+            padding-left: 8px;
+            padding-right: 8px;
+          }
+          .steam {
+            background: #3e4148;
+          }
+          .steam:hover {
+            background: #4c5058;
+          }
+          .steam > span,.facebook > span {
+            font-size: 12px;
+            margin-left: 12px;
+          }
+          .steam > i,.facebook > i {
+            font-size: 16px;
+            vertical-align: middle;
+            margin-top: -3px;
+          }
+          @media only screen and (max-width: 768px) {
+            .steam, .facebook {
+              padding-left: 12px;
+              padding-right: 12px;
+            }
+            .steam > span,.facebook > span {
+              display: none;
+            }
           }
         `}</style>
       </Card>
