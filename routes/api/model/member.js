@@ -147,9 +147,6 @@ exports.member_looking_get = function (game_id, role_id, offset, limit, order_by
   }
 
   connection.query(sql, function (err, results, fields) {
-    if(err) {
-      console.log(sql)
-    }
     callback(err, results);
   });
 };
