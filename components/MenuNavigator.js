@@ -27,6 +27,7 @@ export default class MenuNavigator extends Component {
           .menu-container {
             max-width: 180px;
             width: 100%;
+            margin-left: 4px;
             float: left;
           }
           .navigator-row {

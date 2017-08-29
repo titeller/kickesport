@@ -1,16 +1,22 @@
 import React, { Component } from 'react'
+import Card from './Card'
 import * as Api from '../api'
+import { isEmptry } from '../helpers/validation'
 
-export default class AddSteamId extends Component {
+export default class AddRovName extends Component {
   state = {
     display: !this.props.rov_name,
-    rov_name: this.props.rov_name,
+    rov_name: this.props.rov_name || '',
     message_error: ''
   }
   async saveRovName() {
     let { rov_name } = this.state
 
-    if(rov_name) {
+    this.setState({
+      message_error: ''
+    })
+
+    if(!isEmptry(rov_name)) {
       const member = await Api.put({
         url: '/api/member',
         data: {
@@ -40,76 +46,48 @@ export default class AddSteamId extends Component {
   render() {
     const { display, rov_name, message_error } = this.state
     return (
-      <div className="rov-input-containers">
-        {
-          display && (
-            <div className="input-information input-steam">
-              <div className="input-information-title">
-                <span>ชื่อใน Rov</span>
-              </div>
-              <div className="input-information-field">
-                <input type="text" placeholder="ชื่อใน Rov" onChange={this.setInput.bind(this)} />
-              </div>
-              <div className="input-information-button">
-                <button className="primary" onClick={this.saveRovName.bind(this)}>บันทึก</button>
-              </div>
+      <div className="container">
+        <Card noPadding={true}>
+          <div className="rov-container">
+            <div>
+              <strong>กรุณากรอกชื่อในเกมส์ Rov ของคุณ</strong>
+            </div>
+            <div className="rov-input">
+              <input className="rov-text" placeholder="กรุณากรอกชื่อในเกมส์ Rov ของคุณ" onChange={this.setInput.bind(this)} />
+              <button className="primary rov-button" onClick={this.saveRovName.bind(this)}>บันทึก</button>
               {
                 message_error && (
                   <div className="message-error">
-                    <div>{message_error}</div>
+                    <small className="text-error">{message_error}</small>
                   </div>
                 )
               }
             </div>
-          )
-        }
+          </div>
+        </Card>
         <style jsx>{`
-          .rov-input-containers {
-            display: inline-block;
+          .container {
+            margin-top: -8px;
           }
-          .input-information {
-            background: #444546;
-            display: inline-block;
-            color: #ffffff;
-            padding: 6px 8px;
-            border-radius: 2px;
-            font-size: 13px;
-            border: solid 1px #e9e9e9;
-            border-radius: 2px;
+          .rov-container {
+            padding: 8px;
           }
-          .input-information-title {
-            display: inline-block;
-            margin: 0 4px 0 2px;
-          }
-          .fa-steam-square {
-            font-size: 24px;
-            vertical-align: middle;
-            margin-top: -2px;
-          }
-          .input-information-field {
-            display: inline-block;
-            margin-left: 4px;
-            width: 300px;
-          }
-          .input-information-button {
-            display: inline-block;
-          }
-          .message-error {
+          .rov-input {
             margin-top: 4px;
-            text-align: right;
-            font-size: 11px;
           }
+          .rov-text {
+            width: calc(100% - 80px);
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+          }
+          .rov-button {
+            width: 80px;
+            padding: 0;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+          @media only screen and (max-width: 480px) {
 
-          @media only screen and (max-width: 768px) {
-            .rov-input-containers {
-              display: block;
-            }
-            .input-steam {
-              width: 100%;
-            }
-            .input-information-field {
-              width: calc(100% - 172px);
-            }
           }
         `}</style>
       </div>

@@ -118,6 +118,7 @@ export default class MenuProfile extends Component {
             display: inline-block;
             font-size: 14px;
             vertical-align: middle;
+            margin-right: 4px;
           }
           @media only screen and (max-width: 768px) {
             .member-name {

@@ -1,14 +1,18 @@
 import React, { Component } from 'react'
 import Card from './Card'
+import Loader from './Loader'
 import Textarea from 'react-textarea-autosize'
-import * as Cookie from '../helpers/cookies'
+import * as Api from '../api'
 
 export default class PostFindTeam extends Component {
   state = {
     minRow: 2,
     description: '',
     role_id: null,
+    role_id_message_error: '',
+    description_message_error: '',
     roleMaster: this.props.roleMaster,
+    loading: false,
   }
 
   postFocus() {
@@ -27,7 +31,6 @@ export default class PostFindTeam extends Component {
     this.setState({
       description,
     })
-    Cookie.savingCookies({ cookieName: 'postFindTeamDescription', data: description })
   }
 
   handleRoleId(event) {
@@ -35,20 +38,59 @@ export default class PostFindTeam extends Component {
     this.setState({
       role_id,
     })
-    Cookie.savingCookies({ cookieName: 'postFindTeamRoleId', data: role_id })
   }
 
-  componentDidMount() {
-    const role_id = Cookie.getCookies({ cookieName: 'postFindTeamRoleId' })
-    const description = Cookie.getCookies({ cookieName: 'postFindTeamDescription' })
-    this.setState({
-      role_id,
-      description
+  async submitFindTeam() {
+    const { game_id } = this.props
+    const { description, role_id } = this.state
+    let flag = true
+
+    await this.setState({
+      role_id_message_error: '',
+      description_message_error: '',
     })
+
+    if(!role_id) {
+      flag = false
+      this.setState({
+        role_id_message_error: 'กรุณาเลือกตำแหน่ง',
+      })
+    }
+    if(!description || (description && description.replace(/\s\s+/g, ' ').replace(/[\r\n]+/g, '').length < 30)) {
+      flag = false
+      this.setState({
+        description_message_error: 'อธิบายการเล่นหรือสิ่งที่เกี่ยวกับคุณมาอย่างน้อย 30 ตัวอักษร',
+      })
+    }
+
+    if(flag) {
+      this.setState({
+        loading: true,
+      })
+      const member_looking = await Api.post({
+        url: '/api/member_looking',
+        data: {
+          game_id,
+          role_id,
+          description
+        }
+      })
+      const { axiosData } = member_looking
+      const { status } = axiosData
+      if(status) {
+        location.reload()
+      } else {
+        this.setState({
+          loading: false,
+        })
+        alert('Something went wrong.')
+      }
+    }
+
   }
 
   render() {
-    const { minRow, description, role_id, roleMaster } = this.state
+    const { minRow, description, role_id, roleMaster, description_message_error, role_id_message_error, loading } = this.state
     return (
       <Card noMargin={true} noPadding={true}>
         <div className="post-header">อธิบายการเล่นหรือสิ่งที่เกี่ยวกับตัวคุณ</div>
@@ -69,8 +111,14 @@ export default class PostFindTeam extends Component {
             onBlur={this.postBlur.bind(this)}
             onChange={this.handleDescription.bind(this)}
             value={description}
-            className="gg"
           />
+          {
+            description_message_error && (
+              <div className="post-form-container text-error message-error">
+                <small>{description_message_error}</small>
+              </div>
+            )
+          }
         </div>
 
         <div className="post-form-container">
@@ -87,6 +135,13 @@ export default class PostFindTeam extends Component {
                 </div>
               ))
             }
+            {
+              role_id_message_error && (
+                <div className="text-error message-error">
+                  <small>{role_id_message_error}</small>
+                </div>
+              )
+            }
           </div>
           <div className="post-row">
             <div className="post-left">
@@ -101,7 +156,14 @@ export default class PostFindTeam extends Component {
               </a>
             </div>
             <div className="post-right">
-              <button className="primary">ประกาศ</button>
+              <button className="primary" onClick={this.submitFindTeam.bind(this)} disabled={loading ? 'disabled' : ''}>
+                {
+                  loading && (
+                    <Loader color="#ffffff" size="12px" />
+                  )
+                }
+                <span style={{ marginLeft: '8px' }}>ประกาศ</span>
+              </button>
             </div>
           </div>
         </div>
@@ -133,6 +195,9 @@ export default class PostFindTeam extends Component {
             font-size: 12px;
             margin-bottom: 4px;
             font-weight: bold;
+          }
+          .message-error {
+            margin-top: 4px;
           }
         `}</style>
       </Card>

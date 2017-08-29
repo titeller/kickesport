@@ -4,7 +4,9 @@ import StandardLayout from '../../components/layout/StandardLayout'
 import MenuNavigator from '../../components/MenuNavigator'
 import PostFindTeam from '../../components/PostFindTeam'
 import FindTeam from '../../components/FindTeam'
+import AddRovName from '../../components/AddRovName'
 import SteamLink from '../../components/SteamLink'
+import Loader from '../../components/Loader'
 import { getIdByGameName } from '../../helpers/game'
 
 
@@ -55,6 +57,7 @@ export default class Dashboard extends Component {
       }
     })
 
+    console.log(member)
     return {
       member,
       game_id,
@@ -63,20 +66,33 @@ export default class Dashboard extends Component {
     }
   }
 
+  state = {
+    display_loading: false,
+  }
+
   render() {
     const { member, game_id, currentGame, roleMaster } = this.props
+    const { display_loading } = this.state
     return (
       <StandardLayout member={member} displayFooter={false}>
         <div className="global-container">
           <div className="container">
             <MenuNavigator currentGame={currentGame} />
             <div className="feed-container">
-
-              <SteamLink />
-              <PostFindTeam game_id={game_id} roleMaster={roleMaster} />
-
               {
-                findTeamList.map(({ id, avatar, first_name, last_name, position, steam_id, create_date, description }) =>
+                game_id != 4 && member && !member.steam_id && (
+                  <SteamLink />
+                )
+              }
+              {
+                game_id == 4 && member && !member.rov_name && (
+                  <AddRovName />
+                )
+              }
+
+              <PostFindTeam game_id={game_id} roleMaster={roleMaster} />
+              {
+                findTeamList.map(({ id, avatar, first_name, last_name, position, steam_id, rov_name, create_date, description }) =>
                   <FindTeam
                     key={id}
                     avatar={avatar}
@@ -89,7 +105,13 @@ export default class Dashboard extends Component {
                   />
                 )
               }
-
+              {
+                display_loading && (
+                  <div className="loadmore">
+                    <Loader color="#aaaaaa" />
+                  </div>
+                )
+              }
             </div>
           </div>
         </div>
@@ -105,6 +127,10 @@ export default class Dashboard extends Component {
             float: left;
             margin-left: 12px;
             width: 500px;
+          }
+          .loadmore {
+            padding: 20px 0 30px;
+            text-align: center;
           }
           @media only screen and (max-width: 768px) {
             .feed-container {
