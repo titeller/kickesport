@@ -158,8 +158,10 @@ export default class PostFindTeam extends Component {
             <div className="post-right">
               <button className="primary" onClick={this.submitFindTeam.bind(this)} disabled={loading ? 'disabled' : ''}>
                 {
-                  loading && (
+                  loading ? (
                     <Loader color="#ffffff" size="12px" />
+                  ) : (
+                    <i className="fa fa-bullhorn navigator-icon" aria-hidden="true" />
                   )
                 }
                 <span style={{ marginLeft: '8px' }}>ประกาศ</span>

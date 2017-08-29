@@ -4,8 +4,18 @@ import { getSteamProfileById } from '../helpers/steam'
 import { getDateFromNow } from '../helpers/dateTime'
 
 export default class FindTeam extends Component {
+  state = {
+    description_seemore: this.props.description ? this.props.description.substring(0, 200).length > 0 : false,
+    description_short: this.props.description ? this.props.description.substring(0, 200) : '',
+  }
+  toggleSeeMoreDescription() {
+    this.setState({
+      description_seemore: !this.state.description_seemore,
+    })
+  }
   render() {
     const { avatar, first_name, last_name, position, steam_id, create_date, description } = this.props
+    const { description_seemore, description_short } = this.state
     return (
       <Card>
         <div className="poster-header">
@@ -32,7 +42,18 @@ export default class FindTeam extends Component {
               </div>
             </div>
           </div>
-          <div className="poster-description">{description}</div>
+          <div className="poster-description">
+            {
+              description_seemore ? `${description_short}...` : description
+            }
+            {
+              description_seemore && (
+                <div className="seemore">
+                  <span className="text-primary" onClick={this.toggleSeeMoreDescription.bind(this)}>ดูเพิ่มเติม</span>
+                </div>
+              )
+            }
+          </div>
         </div>
         <style jsx>{`
           .poster-avatar {
@@ -70,6 +91,19 @@ export default class FindTeam extends Component {
           .poster-description {
             font-size: 13px;
             margin: 4px 0;
+            word-break: break-word;
+            white-space: pre-line;
+          }
+          .seemore {
+            margin-left: 4px;
+            text-align: center;
+          }
+          .seemore > span {
+            font-size: 12px;
+            cursor: pointer;
+          }
+          .seemore > span:hover {
+            text-decoration: underline;
           }
         `}</style>
       </Card>
