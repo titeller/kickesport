@@ -8,7 +8,7 @@ import { getAvatarByGameId } from '../helpers/game'
 
 export default class FindTeam extends Component {
   state = {
-    description_seemore: this.props.description ? this.props.description.substring(0, 200).length > 0 : false,
+    description_seemore: this.props.description ? this.props.description.substring(200).length > 0 : false,
     description_short: this.props.description ? this.props.description.substring(0, 200) : '',
   }
   toggleSeeMoreDescription() {
