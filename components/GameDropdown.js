@@ -32,7 +32,7 @@ export default class GameDropdown extends Component {
       isOpen: this.state.isMenuOpen,
       close: this.close.bind(this),
       toggle: (
-        <div onClick={this.toggle.bind(this)} >
+        <div onClick={this.toggle.bind(this)}>
           <i className="fa fa-angle-down" aria-hidden="true"></i>
         </div>
       ),
@@ -43,9 +43,9 @@ export default class GameDropdown extends Component {
       <span>
         {
           current ? (
-            <span className={`cursor-pointer game-current ${current}`} onClick={this.toggle.bind(this)}>{current}</span>
+            <div className={`cursor-pointer game-current game-current-display ${current}`} onClick={this.toggle.bind(this)}>{current}</div>
           ) : (
-            <span className="cursor-pointer" onClick={this.toggle.bind(this)}>เลือก Game</span>
+            <div className="cursor-pointer game-current-display" onClick={this.toggle.bind(this)}>เลือก Game</div>
           )
         }
         <DropdownMenu {...menuOptions}>
@@ -56,44 +56,48 @@ export default class GameDropdown extends Component {
           }
         </DropdownMenu>
         <style jsx>{`
-     .game-current {
-        position: relative;
-        padding: 0.75rem 0.25rem 0.725rem 3.25rem;
-        font-size: 16px;
-        font-weight: 600;
-        text-transform: uppercase;
-      }
-      .game-current:before {
-        content: "";
-        box-sizing: border-box;
-        position: absolute;
-        top: 0;
-        left: 4px;
-        width: 2.5rem;
-        height: 100%;
-      }
-      .dota2.game-current:before {
-        background: url(/static/images/games/dota2-logo.png) no-repeat center/cover;
-        background-size: 100%;
-      }
-      .csgo.game-current:before {
-        background: url(/static/images/games/csgo-logo.png) no-repeat center/cover;
-        background-size: 100%;
-      }
-      .overwatch.game-current:before {
-        background: url(/static/images/games/ow-logo.png) no-repeat center/cover;
-        background-size: 100%;
-      }
-      .rov.game-current:before {
-        background: url(/static/images/games/rov-logo.png) no-repeat center/cover;
-        background-size: 100%;
-      }
-      .game-dropdown-row {
-        padding-right: 12px;
-      }
-      .cursor-pointer {
-        cursor: pointer;
-      }
+          .game-current {
+            position: relative;
+            padding: 0.75rem 0.25rem 0.725rem 3.25rem;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+          }
+          .game-current-display {
+            display: inline-block;
+            width: calc(100% - 19px);
+          }
+          .game-current:before {
+            content: "";
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            left: 4px;
+            width: 2.5rem;
+            height: 100%;
+          }
+          .dota2.game-current:before {
+            background: url(/static/images/games/dota2-logo.png) no-repeat center/cover;
+            background-size: 100%;
+          }
+          .csgo.game-current:before {
+            background: url(/static/images/games/csgo-logo.png) no-repeat center/cover;
+            background-size: 100%;
+          }
+          .overwatch.game-current:before {
+            background: url(/static/images/games/ow-logo.png) no-repeat center/cover;
+            background-size: 100%;
+          }
+          .rov.game-current:before {
+            background: url(/static/images/games/rov-logo.png) no-repeat center/cover;
+            background-size: 100%;
+          }
+          .game-dropdown-row {
+            padding-right: 12px;
+          }
+          .cursor-pointer {
+            cursor: pointer;
+          }
     `}</style>
       </span>
     )

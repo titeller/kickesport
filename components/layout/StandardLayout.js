@@ -8,9 +8,14 @@ export default ({ member, displayHeader = true, displayFooter = true, headerBack
       {
           displayHeader ? <Header member={member} headerBackground={headerBackground} /> : null
       }
-      <div>{ children }</div>
+      <div className="container">{ children }</div>
       {
           displayFooter ? <Footer /> : null
       }
+      <style jsx>{`
+        .container {
+          min-height: 100vh;
+        }
+      `}</style>
   </div>
 )
