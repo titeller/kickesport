@@ -65,7 +65,7 @@ exports.member_post = function (req, res) {
 
 exports.member_steam_auth = function (member_id, steam_profile, callback) {
   var steam_id = steam_profile._json.steamid;
-  member_model.member_put(member_id, null, null, null, null, steam_id, null, callback);
+  member_model.member_put(member_id, null, null, null, null, steam_id, null, null, callback);
 };
 
 exports.member_put = function (req, res) {
@@ -76,6 +76,7 @@ exports.member_put = function (req, res) {
   var picture_profile;
   var steam_id;
   var rov_name;
+  var battlenet;
 
   if(req.body.username) {
     username = req.body.username
@@ -98,8 +99,11 @@ exports.member_put = function (req, res) {
   if(req.body.rov_name) {
     rov_name = req.body.rov_name
   }
+  if(req.body.battlenet) {
+    battlenet = req.body.battlenet
+  }
 
-  member_model.member_put(req.member.id, username, first_name, last_name, picture_profile, steam_id, rov_name, function (err, data) {
+  member_model.member_put(req.member.id, username, first_name, last_name, picture_profile, steam_id, rov_name, battlenet, function (err, data) {
     if (!err) {
       res.send({
         status: true,

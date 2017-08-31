@@ -43,7 +43,7 @@ exports.member_post = function (username, password, email, facebook_id, first_na
   });
 }
 
-exports.member_put = function (member_id, username, first_name, last_name, picture_profile, steam_id, rov_name, callback) {
+exports.member_put = function (member_id, username, first_name, last_name, picture_profile, steam_id, rov_name, battlenet, callback) {
   var sql_params = [];
 
   if(first_name) {
@@ -61,6 +61,9 @@ exports.member_put = function (member_id, username, first_name, last_name, pictu
   if(rov_name) {
     sql_params.push(`rov_name=${connection.escape(rov_name)}`);
   }
+  if(battlenet) {
+    sql_params.push(`battlenet=${connection.escape(battlenet)}`);
+  }
 
   sql_params = sql_params.join(",");
 
@@ -71,14 +74,14 @@ exports.member_put = function (member_id, username, first_name, last_name, pictu
 }
 
 exports.member_get_byId = function (id, callback) {
-  var sql= `SELECT id, username, email, verify, country_code, create_date, first_name, last_name, picture_profile, steam_id, rov_name FROM member WHERE id = ${connection.escape(id)}`
+  var sql= `SELECT id, username, email, verify, country_code, create_date, first_name, last_name, picture_profile, steam_id, rov_name, battlenet FROM member WHERE id = ${connection.escape(id)}`
   connection.query(sql, function (err, results, fields) {
     callback(err, results);
   });
 };
 
 exports.member_get_byFacebookId = function (facebook_id, callback) {
-  var sql=  `SELECT id, username, email, verify, country_code, create_date, first_name, last_name, picture_profile, steam_id, rov_name FROM member WHERE facebook_id = ${connection.escape(facebook_id)}`
+  var sql=  `SELECT id, username, email, verify, country_code, create_date, first_name, last_name, picture_profile, steam_id, rov_name, battlenet FROM member WHERE facebook_id = ${connection.escape(facebook_id)}`
   connection.query(sql, function (err, results, fields) {
     callback(err, results);
   });
@@ -116,7 +119,7 @@ exports.member_looking_post = function (member_id, game_id, description, role_id
 };
 
 exports.member_looking_get = function (game_id, role_id, offset, limit, order_by, sort_by, looking_status, callback) {
-  var sql = `SELECT member_looking.id, member_looking.game_id, game.name AS game_name, member_looking.description, member_looking.create_date, member_looking.role_id, role.name AS role_name, member.first_name, member.last_name, member.picture_profile, member.facebook_id, member.steam_id, member.rov_name FROM member_looking LEFT JOIN member ON member_looking.member_id = member.id LEFT JOIN role ON member_looking.role_id = role.id LEFT JOIN game ON member_looking.game_id = game.id`
+  var sql = `SELECT member_looking.id, member_looking.game_id, game.name AS game_name, member_looking.description, member_looking.create_date, member_looking.role_id, role.name AS role_name, member.first_name, member.last_name, member.picture_profile, member.facebook_id, member.steam_id, member.rov_name, member.battlenet FROM member_looking LEFT JOIN member ON member_looking.member_id = member.id LEFT JOIN role ON member_looking.role_id = role.id LEFT JOIN game ON member_looking.game_id = game.id`
 
   var sql_params = [];
   if(game_id) {
