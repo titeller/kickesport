@@ -17,7 +17,7 @@ export default class FindTeam extends Component {
     })
   }
   render() {
-    const { avatar, first_name, last_name, position, steam_id, create_date, description, game_id, facebook_id, rov_name, current_game_id } = this.props
+    const { avatar, first_name, last_name, position, steam_id, create_date, description, game_id, facebook_id, rov_name, current_game_id, battlenet } = this.props
     const { description_seemore, description_short } = this.state
     return (
       <Card padding="4px 4px 4px 4px">
@@ -55,6 +55,24 @@ export default class FindTeam extends Component {
           </div>
           <div className="poster-description">
             {
+              (current_game_id == 1 || current_game_id == 2) && steam_id && (
+                <div style={{ marginBottom: '4px' }}>
+                  <a href={getSteamProfileById(steam_id)} target="_blank" style={{ color: '#555' }}>
+                    <i className="fa fa-steam-square" aria-hidden="true" style={{ fontSize: '14px' }} />
+                    <span> Steam</span>
+                  </a>
+                </div>
+              )
+            }
+            {
+              game_id == 3 && battlenet && (
+                <div style={{ marginBottom: '4px' }}>
+                  <span>BattleNet </span>
+                  <strong style={{ fontSize: '16px' }}>{battlenet}</strong>
+                </div>
+              )
+            }
+            {
               game_id == 4 && rov_name && (
                 <div style={{ marginBottom: '4px' }}>
                   <span>ชื่อในเกมส์ </span>
@@ -70,28 +88,6 @@ export default class FindTeam extends Component {
                 <div className="seemore">
                   <span className="text-primary" onClick={this.toggleSeeMoreDescription.bind(this)}>ดูเพิ่มเติม</span>
                 </div>
-              )
-            }
-          </div>
-          <div className="poster-action">
-            {
-              facebook_id && (
-                <a href={getFacebookProfileById(facebook_id)} target="_blank" className="poster-action-row" alt="ดู Facebook โปรไฟล์">
-                  <button className="facebook loginBtn--facebook">
-                    <i className="fa fa-facebook" aria-hidden="true" />
-                    <span>Facebook โปรไฟล์</span>
-                  </button>
-                </a>
-              )
-            }
-            {
-              game_id != 4 && steam_id && (
-                <a href={getSteamProfileById(steam_id)} target="_blank" className="poster-action-row" alt="ดู Steam โปรไฟล์">
-                  <button className="steam">
-                    <i className="fa fa-steam-square" aria-hidden="true" />
-                    <span>Steam โปรไฟล์</span>
-                  </button>
-                </a>
               )
             }
           </div>

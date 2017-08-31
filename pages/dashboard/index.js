@@ -5,45 +5,12 @@ import MenuNavigator from '../../components/MenuNavigator'
 import PostFindTeam from '../../components/PostFindTeam'
 import FindTeam from '../../components/FindTeam'
 import AddRovName from '../../components/AddRovName'
+import AddBattleNet from '../../components/AddBattleNet'
 import SteamLink from '../../components/SteamLink'
 import Loader from '../../components/Loader'
 import Card from '../../components/Card'
 import GameDropdown from '../../components/GameDropdown'
 import { getIdByGameName } from '../../helpers/game'
-
-
-const findTeamList = [
-  {
-    id: 1,
-    avatar: 'https://cdn0.gamesports.net/storage/59000/59313.jpg',
-    first_name: 'Artour',
-    last_name: 'Babaev',
-    position: 'Carry',
-    steam_id: '76561198057258855',
-    create_date: '2017-08-25 00:55:18',
-    description: 'Artour was born in Tashkent, Uzbekistan on July 1st, 1996.[1] Before playing Dota 2 professionally he played the original DotA as well as Starcraft II. Arteezy played Protoss, and reached Masters before he started playing Dota 2.',
-  },
-  {
-    id: 2,
-    avatar: 'http://a.espncdn.com/combiner/i?img=/photo/2016/0811/r112447_800x450_16-9.jpg&w=800',
-    first_name: 'Amer',
-    last_name: 'Al-Barqawi',
-    position: 'Middle',
-    steam_id: '76561198057258855',
-    create_date: '2017-08-25 00:55:18',
-    description: 'Miracle- joined Balkan Bears at the beginning of 2015, only to be removed from the team about four months later. While he was teamless, he began gaining recognition in the European scene by climbing the matchmaking rating leaderboards in pub games. Miracle- eventually became the #1 player by MMR in the European division and the world, surpassing w33.',
-  },
-  {
-    id: 3,
-    avatar: 'http://images.indianexpress.com/2015/08/clintonloomis_korieyang.jpg',
-    first_name: 'Clinton',
-    last_name: 'Loomis',
-    position: 'Support',
-    steam_id: '76561198057258855',
-    create_date: '2017-08-25 00:55:18',
-    description: 'Clinton "Fear" Loomis is an American player from Medford, Oregon. Fear is one of the most storied Dota players, and has been widely regarded as one of the best North American players for the past decade. His versatility has allowed him to play every position at a competitive level, which makes Fear a great fit for almost any team. He is currently the coach and a part-owner of Evil Geniuses.',
-  },
-]
 
 export default class Dashboard extends Component {
   static async getInitialProps ({ req }) {
@@ -59,14 +26,15 @@ export default class Dashboard extends Component {
       }
     })
 
-    const member_looking_limit = 20
+    const member_looking_offset = 0
+    const member_looking_limit = 15
     const member_looking = await Api.get({
       url: '/api/member_looking',
       baseURL: Api.getFullBaseUrl(req),
       params: {
         game_id,
         limit: member_looking_limit,
-        offset: 0,
+        offset: member_looking_offset,
         order_by: 'create_date',
         sort_by: 'DESC',
       }
@@ -78,17 +46,72 @@ export default class Dashboard extends Component {
       currentGame,
       roleMaster: roleMaster.data,
       member_looking: member_looking.data,
+      member_looking_limit
     }
   }
 
   state = {
     member_looking: this.props.member_looking || [],
+    member_looking_offset: 0,
     display_loading: false,
+    loadmore_is_full: false,
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll.bind(this))
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll.bind(this))
+  }
+  async handleScroll() {
+    if((window.innerHeight + window.scrollY) >= (document.body.offsetHeight + 150)) {
+      const { member_looking_limit, current_game_id } = this.props
+      const { member_looking, display_loading, member_looking_offset, loadmore_is_full } = this.state
+      if(!loadmore_is_full) {
+        this.setState({
+          display_loading: true,
+        })
+        if(!display_loading) {
+          const get_member_looking = await Api.get({
+            url: '/api/member_looking',
+            params: {
+              game_id: current_game_id,
+              limit: member_looking_limit,
+              offset: member_looking_offset + member_looking_limit,
+              order_by: 'create_date',
+              sort_by: 'DESC',
+            }
+          })
+
+          this.setState({
+            display_loading: false,
+          })
+
+          const { axiosData } = get_member_looking
+          console.log(axiosData)
+          const { status } = axiosData
+          if(status) {
+            const { data } = axiosData
+            if(data.length > 0) {
+              const new_member_looking = member_looking.concat(data)
+              this.setState({
+                member_looking_offset: member_looking_offset + member_looking_limit,
+                member_looking: new_member_looking,
+              })
+            } else {
+              this.setState({
+                loadmore_is_full: true,
+              })
+            }
+          }
+        }
+      }
+    }
   }
 
   render() {
     const { member, current_game_id, currentGame, roleMaster } = this.props
-    const { display_loading, member_looking } = this.state
+    const { member_looking, display_loading, loadmore_is_full } = this.state
     return (
       <StandardLayout member={member} displayFooter={false}>
         <div className="global-container">
@@ -96,8 +119,13 @@ export default class Dashboard extends Component {
             <MenuNavigator currentGame={currentGame} />
             <div className="feed-container">
               {
-                current_game_id != 4 && member && !member.steam_id && (
+                (current_game_id == 1 || current_game_id == 2) && member && !member.steam_id && (
                   <SteamLink />
+                )
+              }
+              {
+                current_game_id == 3 && member && !member.battlenet && (
+                  <AddBattleNet />
                 )
               }
               {
@@ -118,7 +146,7 @@ export default class Dashboard extends Component {
                 )
               }
               {
-                member_looking.map(({ id, picture_profile, facebook_id, first_name, last_name, steam_id, rov_name, create_date, description, role_name, game_id }) =>
+                member_looking.map(({ id, picture_profile, facebook_id, first_name, last_name, steam_id, rov_name, create_date, description, role_name, game_id, battlenet }) =>
                   <FindTeam
                     key={id}
                     avatar={picture_profile}
@@ -131,6 +159,7 @@ export default class Dashboard extends Component {
                     description={description}
                     game_id={game_id}
                     rov_name={rov_name}
+                    battlenet={battlenet}
                     current_game_id={current_game_id}
                   />
                 )
@@ -139,6 +168,13 @@ export default class Dashboard extends Component {
                 display_loading && (
                   <div className="loadmore">
                     <Loader color="#aaaaaa" />
+                  </div>
+                )
+              }
+              {
+                loadmore_is_full && (
+                  <div style={{ textAlign: 'center' }}>
+                    <h4 className="text-gray">ไม่พบข้อมูล</h4>
                   </div>
                 )
               }
