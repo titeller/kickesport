@@ -153,3 +153,30 @@ exports.member_looking_get = function (game_id, role_id, offset, limit, order_by
     callback(err, results);
   });
 };
+
+exports.member_looking_comment_post = function (member_id, member_looking_id, message, callback) {
+  var sql_params = [];
+  var sql_values = [];
+
+  if(member_id) {
+    sql_params.push("member_id");
+    sql_values.push(connection.escape(member_id));
+  }
+  if(member_looking_id) {
+    sql_params.push("member_looking_id");
+    sql_values.push(connection.escape(member_looking_id));
+  }
+  if(message) {
+    sql_params.push("message");
+    sql_values.push(connection.escape(message));
+  }
+
+  sql_params = sql_params.join(",");
+  sql_values = sql_values.join(",");
+
+  var sql = `INSERT INTO member_looking_comment (${sql_params}) VALUES (${sql_values})`
+
+  connection.query(sql, function (err, results, fields) {
+    callback(err, results);
+  });
+}

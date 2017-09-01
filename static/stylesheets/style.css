@@ -256,6 +256,16 @@ button.secondary {
 button.secondary:hover {
   background-color: #151515;
 }
+button.primary-outline {
+  border: solid 1px #d80157;
+  color: #d80157;
+  background: #ffffff;
+}
+button.primary-outline:hover {
+  border: solid 1px #f50062;
+  color: #f50062;
+  background: #ffffff;
+}
 button:disabled {
   opacity: .6;
 }

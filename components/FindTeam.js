@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 // import { Card } from './uikit/Theme'
 import Card from './Card'
+import CommentInput from './CommentInput'
 import { getSteamProfileById } from '../helpers/steam'
 import { getFacebookProfileById } from '../helpers/facebook'
 import { getDateFromNow } from '../helpers/dateTime'
@@ -17,82 +18,88 @@ export default class FindTeam extends Component {
     })
   }
   render() {
-    const { avatar, first_name, last_name, position, steam_id, create_date, description, game_id, facebook_id, rov_name, current_game_id, battlenet } = this.props
+    const { member_looking_id, avatar, first_name, last_name, position, steam_id, create_date, description, game_id, facebook_id, rov_name, current_game_id, battlenet } = this.props
     const { description_seemore, description_short } = this.state
     return (
-      <Card padding="4px 4px 4px 4px">
-        <div className="poster-header">
-          <a href={getFacebookProfileById(facebook_id)} className="poster-avatar" target="_blank">
-            <img className="avatar" src={avatar} />
-          </a>
-          <div className="poster-contact">
-            <div>
-              <a href={getFacebookProfileById(facebook_id)} className="poster-name" target="_blank">{first_name} {last_name}</a>
-              {
-                !current_game_id && (
-                  <span>
+      <Card noPadding={true}>
+        <div className="poster-container">
+          <div className="poster-header">
+            <a href={getFacebookProfileById(facebook_id)} className="poster-avatar" target="_blank">
+              <img className="avatar" src={avatar} />
+            </a>
+            <div className="poster-contact">
+              <div>
+                <a href={getFacebookProfileById(facebook_id)} className="poster-name" target="_blank">{first_name} {last_name}</a>
+                {
+                  !current_game_id && (
+                    <span>
                 <small className="text-gray find-team-game-label">ประกาศหาทีม</small>
                 <img src={getAvatarByGameId(game_id)} className="find-team-game" />
               </span>
+                  )
+                }
+              </div>
+              <div>
+                <div className="poster-label">
+                  <span className="text-gray">ตำแหน่ง </span>
+                  <strong>{position}</strong>
+                </div>
+                {/*<div className="poster-label">*/}
+                {/*<a href={getSteamProfileById(steam_id)} target="_blank" style={{ color: '#555' }}>*/}
+                {/*<i className="fa fa-steam-square" aria-hidden="true" style={{ fontSize: '14px' }} />*/}
+                {/*<span> Steam</span>*/}
+                {/*</a>*/}
+                {/*</div>*/}
+                <div className="poster-label">
+                  <small className="text-gray">{getDateFromNow(create_date)}</small>
+                </div>
+              </div>
+            </div>
+            <div className="poster-description">
+              {
+                (current_game_id == 1 || current_game_id == 2) && steam_id && (
+                  <div style={{ marginBottom: '4px' }}>
+                    <a href={getSteamProfileById(steam_id)} target="_blank" style={{ color: '#555' }}>
+                      <i className="fa fa-steam-square" aria-hidden="true" style={{ fontSize: '14px' }} />
+                      <span> Steam</span>
+                    </a>
+                  </div>
+                )
+              }
+              {
+                game_id == 3 && battlenet && (
+                  <div style={{ marginBottom: '4px' }}>
+                    <span>BattleNet </span>
+                    <strong style={{ fontSize: '16px' }}>{battlenet}</strong>
+                  </div>
+                )
+              }
+              {
+                game_id == 4 && rov_name && (
+                  <div style={{ marginBottom: '4px' }}>
+                    <span>ชื่อในเกมส์ </span>
+                    <strong style={{ fontSize: '16px' }}>{rov_name}</strong>
+                  </div>
+                )
+              }
+              {
+                description_seemore ? `${description_short}...` : description
+              }
+              {
+                description_seemore && (
+                  <div className="seemore">
+                    <span className="text-primary" onClick={this.toggleSeeMoreDescription.bind(this)}>ดูเพิ่มเติม</span>
+                  </div>
                 )
               }
             </div>
-            <div>
-              <div className="poster-label">
-                <span className="text-gray">ตำแหน่ง </span>
-                <strong>{position}</strong>
-              </div>
-              {/*<div className="poster-label">*/}
-                {/*<a href={getSteamProfileById(steam_id)} target="_blank" style={{ color: '#555' }}>*/}
-                  {/*<i className="fa fa-steam-square" aria-hidden="true" style={{ fontSize: '14px' }} />*/}
-                  {/*<span> Steam</span>*/}
-                {/*</a>*/}
-              {/*</div>*/}
-              <div className="poster-label">
-                <small className="text-gray">{getDateFromNow(create_date)}</small>
-              </div>
-            </div>
-          </div>
-          <div className="poster-description">
-            {
-              (current_game_id == 1 || current_game_id == 2) && steam_id && (
-                <div style={{ marginBottom: '4px' }}>
-                  <a href={getSteamProfileById(steam_id)} target="_blank" style={{ color: '#555' }}>
-                    <i className="fa fa-steam-square" aria-hidden="true" style={{ fontSize: '14px' }} />
-                    <span> Steam</span>
-                  </a>
-                </div>
-              )
-            }
-            {
-              game_id == 3 && battlenet && (
-                <div style={{ marginBottom: '4px' }}>
-                  <span>BattleNet </span>
-                  <strong style={{ fontSize: '16px' }}>{battlenet}</strong>
-                </div>
-              )
-            }
-            {
-              game_id == 4 && rov_name && (
-                <div style={{ marginBottom: '4px' }}>
-                  <span>ชื่อในเกมส์ </span>
-                  <strong style={{ fontSize: '16px' }}>{rov_name}</strong>
-                </div>
-              )
-            }
-            {
-              description_seemore ? `${description_short}...` : description
-            }
-            {
-              description_seemore && (
-                <div className="seemore">
-                  <span className="text-primary" onClick={this.toggleSeeMoreDescription.bind(this)}>ดูเพิ่มเติม</span>
-                </div>
-              )
-            }
           </div>
         </div>
+        <CommentInput member_looking_id={member_looking_id} />
         <style jsx>{`
+          .poster-container {
+            padding: 12px;
+          }
           .poster-avatar {
             margin-right: 8px;
           }

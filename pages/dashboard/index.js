@@ -149,6 +149,7 @@ export default class Dashboard extends Component {
                 member_looking.map(({ id, picture_profile, facebook_id, first_name, last_name, steam_id, rov_name, create_date, description, role_name, game_id, battlenet }) =>
                   <FindTeam
                     key={id}
+                    member_looking_id={id}
                     avatar={picture_profile}
                     first_name={first_name}
                     last_name={last_name}

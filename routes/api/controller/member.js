@@ -220,3 +220,22 @@ exports.member_looking_get = function (req, res) {
     }
   })
 }
+
+exports.member_looking_comment_post = function (req, res) {
+  var member_looking_id = req.params.member_looking_id;
+  var message = req.body.message;
+
+  member_model.member_looking_comment_post(req.member.id, member_looking_id, message, function (err, data) {
+    if (!err) {
+      res.send({
+        status: true,
+        message: 'Comment Success.'
+      })
+    } else {
+      res.send({
+        status: false,
+        message: err.message
+      });
+    }
+  })
+}
