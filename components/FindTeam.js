@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 // import { Card } from './uikit/Theme'
 import Card from './Card'
 import CommentInput from './CommentInput'
+import Comment from './Comment'
 import { getSteamProfileById } from '../helpers/steam'
 import { getFacebookProfileById } from '../helpers/facebook'
 import { getDateFromNow } from '../helpers/dateTime'
@@ -95,6 +96,14 @@ export default class FindTeam extends Component {
             </div>
           </div>
         </div>
+
+        <div>
+          <Comment />
+          <Comment />
+          <Comment />
+          <Comment />
+        </div>
+
         <CommentInput member_looking_id={member_looking_id} />
         <style jsx>{`
           .poster-container {

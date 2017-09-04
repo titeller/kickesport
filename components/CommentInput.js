@@ -39,7 +39,6 @@ export default class CommentInput extends Component {
             transition: '.2s ease-in-out',
             overflowY: 'hidden',
             border: 'solid 1px #dddfe2',
-            borderRight: 'none',
             borderRadius: '22px',
             borderTopRightRadius: '0px',
             borderBottomRightRadius: '0px',
@@ -71,8 +70,10 @@ export default class CommentInput extends Component {
             border-radius: 100%;
           }
           .comment-button {
-            width: 40px;
+            position: relative;
+            width: 41px;
             padding: 0;
+            margin-left: -1px;
             text-align: center;
             height: 37px;
             font-size: 12px;
