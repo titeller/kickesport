@@ -189,20 +189,27 @@ exports.member_looking_post = function (req, res) {
   var game_id = req.body.game_id;
   var description = req.body.description;
   var role_id = req.body.role_id;
-
-  member_model.member_looking_post(req.member.id, game_id, description, role_id, function (err, data) {
-    if (!err) {
-      res.send({
-        status: true,
-        message: 'Post member looking team success.'
-      })
-    } else {
-      res.send({
-        status: false,
-        message: err.message
-      });
-    }
-  })
+  var member = req.member;
+  if(member && member.id) {
+    member_model.member_looking_post(member.id, game_id, description, role_id, function (err, data) {
+      if (!err) {
+        res.send({
+          status: true,
+          message: 'Post member looking team success.'
+        })
+      } else {
+        res.send({
+          status: false,
+          message: err.message
+        });
+      }
+    })
+  } else {
+    res.send({
+      status: false,
+      message: 'Need login'
+    })
+  }
 }
 
 exports.member_looking_get = function (req, res) {
