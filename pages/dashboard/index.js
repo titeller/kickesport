@@ -10,6 +10,7 @@ import SteamLink from '../../components/SteamLink'
 import Loader from '../../components/Loader'
 import Card from '../../components/Card'
 import GameDropdown from '../../components/GameDropdown'
+import MenuProfile from '../../components/MenuProfile'
 import { getIdByGameName } from '../../helpers/game'
 
 export default class Dashboard extends Component {
@@ -134,13 +135,20 @@ export default class Dashboard extends Component {
                 )
               }
               {
-                current_game_id ? (
+                member ? current_game_id ? (
                   <PostFindTeam game_id={current_game_id} roleMaster={roleMaster} />
                 ) : (
                   <Card>
                     <strong>กรุณาเลือกเกมส์เพื่อประกาศหาทีม</strong>
                     <div className="game-empty-right">
                       <GameDropdown />
+                    </div>
+                  </Card>
+                ) : (
+                  <Card>
+                    <div style={{ textAlign: 'center' }}>
+                      <strong>กรุณาเข้าสู่ระบบเพื่อประกาศหาทีม</strong>
+                      <MenuProfile />
                     </div>
                   </Card>
                 )
